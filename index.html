@@ -1,55 +1,73 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Jake's Portfolio</title>
+    <title>Jacob's Portfolio</title>
     <link rel='stylesheet' href='style.css'/>
     <meta name='viewport'
       content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
   </head>
   <body>
 
-      <div class="navi">
-          <h2 class="navi-title">Pages:</h2>
-          <ul class="navi-list">
-              <li class="navi-item"><a href="/page-one.html">page 1 (home)</a></li>
-              <li class="navi-item"><a href="/page-two.html">page 2 (images)</a></li>
-              <li class="navi-item"><a href="/page-three.html">page 3 (misc)</a></li>
-          </ul>
-      </div>
+    <header>
+        <h2 class="navi-title">Jacob Liddle</h2>
+        <ul class="navi-list">
+            <li class="navi-item"><a href="#about">About</a></li>
+            <li class="navi-item"><a href="#games">Game Portfolio</a></li>
+            <li class="navi-item"><a href="#contact">Contact</a></li>
+            <li><a href="resume.pdf">Resume</a></li>
+        </ul>
+    </header>
 
-    <h1>This is my portfolio</h1>
 
-    <div class="content">
-
-        <div class="about">
-
-            <h2 class="about-item">About Me</h2>
-            <p class="about-item">I'm Jacob Liddle! I'm a senior computer science student at BYU.
-            I've done a lot of programming while here at school.</p>
-
-            <h2 class="about-item">Contact Me</h2>
-            <p class="about-item">You can contact me at jacobwliddle@gmail.com, <a href="https://www.linkedin.com/in/jacobliddle6/">LinkedIn</a>, or <a href="https://github.com/wockomtosh">GitHub</a></p>
-
+    <div id="about" class="about">
+        <h1>About Me</h1>
+        <div class="section">           
+            <p class="about-item">Hello, I'm Jacob Liddle! I'm a master's student at the University of Utah studying Entertainment Arts Engineering.</p>
         </div>
+    </div>
+    
 
-        <div class="lists">
-            <h2>Projects</h2>
-            <ul>
-                <li>Android Twitter clone app and server</li>
-                <li>Simple game in Unreal Engine</li>
-                <li>Neural Style Transfer</li>
-            </ul>
-
-            <hr/>
-
-            <h2 id="experience">Work Experience</h2>
-            <ul class="bottom">
-                <li>Grounds Maintenance Worker</li>
-                <li>Research Assistant</li>
-                <li>Teaching Assistant for Intro to Graphics and Image Processing</li>
-            </ul>
+    <div id="games">
+        <h1>Games</h1>
+        <div class="section">
+            <div class="game">
+                <h2>Liminus: The Silent Guard</h2>
+                <p><a href="https://store.steampowered.com/app/1998250/Liminus_The_Silent_Guard/">https://store.steampowered.com/app/1998250/Liminus_The_Silent_Guard/</a></p>
+                <p>This was a capstone project at BYU that was developed over the course of a year in Unreal Engine 4. 
+                    I worked on prototyping, enemy behavior, player abilities, and UI implementation.</p>
+            </div>
+            <div class="game">
+                <h2>Space War</h2>
+                <p><a href="https://wockomtosh.itch.io/space-war">https://wockomtosh.itch.io/space-war</a></p>
+                <p>This is a prototype developed in 2 weeks at the University of Utah using the Unity engine.  
+                I was the programmer on a team of 4 people who worked on the project. </p>
+            </div>
+            <div class="game">
+                <h2>Show Yourself</h2>
+                <p><a href="https://omgitscookietime.itch.io/show-yourself">https://omgitscookietime.itch.io/show-yourself</a></p>
+                <p>This is a VR prototype developed in 4 weeks at the University of Utah using the Unity engine. 
+                    I was one of two programmers on the project. This was meant to be a serious game based on Carl Jung's statement, 
+                    "You are what you do, not what you say you'll do."
+                </p>
+            </div>
         </div>
+    </div>
+    
 
+    <h1 id="contact">Contact Me</h1>
+    <div class="contact">
+        <a class="contact-link" href="https://github.com/wockomtosh">
+            <img class="contact-picture" src="images/github-logo.png">
+            <p>wockomtosh</p>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/jacobliddle6/">
+            <img class="contact-picture" src="images/linkedin-logo.png">
+            <p>in/jacobliddle6</p>
+        </a>
+        <a class="contact-link" href="mailto:jacobwliddle@gmail.com">
+            <img class="contact-picture" src="images/email-icon.png">
+            <p>jacobwliddle@gmail.com</p>
+        </a>
     </div>
 
   </body>
