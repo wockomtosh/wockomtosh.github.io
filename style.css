@@ -1,0 +1,129 @@
+body {
+  color: #444444; /*dark gray*/
+  background-color: #EEEEEE; /*very light gray*/
+}
+
+h1, h2 {
+    font-family: "Helvetica", "Arial", sans-serif;
+}
+
+ul {
+  list-style-type: circle;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+  font-weight: normal;
+}
+
+p {
+  background-color: #DDDDDD;
+  padding: 10px 5px;
+  border: 1px solid #333333;
+}
+
+.navi {
+    margin: 0;
+    padding: 0;
+    background-color: blue;
+    color: #EEEEEE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.navi-list {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.navi-item {
+    border-right: 1px solid #EEEEEE;
+}
+
+.navi li a:hover {
+    background-color: green;
+}
+
+.navi a {
+    padding: 8px;
+    color: #EEEEEE;
+}
+
+@media only screen and (max-width: 500px) {
+    /* body {
+      background-color: green;
+    } */
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .about {
+        /* width: 100%; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    /* .about-item {
+        width: 300%;
+    } */
+
+    .lists {
+        margin: 25px;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 401px) {
+    h1 {
+    	font-size: 34px;
+    	text-align: center;
+    }
+
+    .content {
+        display: flex;
+        justify-content: center;
+    }
+
+    .about {
+        width: 15%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .lists {
+        margin: 25px;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
