@@ -23,6 +23,11 @@ header {
     background-color: #EEEEEE;
 }
 
+p {
+    text-align: left;
+    width: 60%
+}
+
 .navi-title {
     padding-left: 15px;
 }
@@ -77,11 +82,6 @@ h1 {
     padding: 75px 0px 0px 0px;
 }
 
-.about p {
-    text-align: center;
-    width: 80%
-}
-
 .game {
     display: flex;
     flex-direction: column;
@@ -90,25 +90,7 @@ h1 {
     width: 100%;
 }
 
-.game p {
-    text-align: center;
-    width: 80%
-}
-
-.contact {
-    margin: 25px;
-    display:flex;
-    justify-content: space-around;
-}
-
-.contact-link {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.contact-picture {
-    width: 120px;
-    height: 120px;
-    margin: 10px;
+.game-video {
+    width: 420px;
+    height: 315px;
 }
