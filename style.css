@@ -24,6 +24,8 @@ header {
 }
 
 p {
+    margin: 0;
+    padding: .5em;
     text-align: left;
     width: 60%
 }
@@ -93,4 +95,10 @@ h1 {
 .game-video {
     width: 420px;
     height: 315px;
+}
+
+.game-image {
+    width: 420px;
+    height: 315px;
+    object-fit: cover;
 }
