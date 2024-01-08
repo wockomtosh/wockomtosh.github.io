@@ -31,7 +31,7 @@ p {
 }
 
 .navi-title {
-    padding-left: 15px;
+    padding-left: 1rem;
 }
 
 .navi-list {
@@ -40,7 +40,7 @@ p {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    padding-right: 15px;
+    padding-right: 1rem;
 }
 
 .navi-item {
@@ -48,7 +48,7 @@ p {
 }
 
 header a {
-    padding: 8px;
+    padding: .5rem;
 }
 
 a {
@@ -69,11 +69,11 @@ a p {
 h1 {
     display: flex;
     justify-content: center;
-    margin: 25px 25px 0px 0px;
+    margin: 1.5rem 1.5rem 0rem 0rem;
 }
 
 .section {
-    padding: 25px;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -81,24 +81,38 @@ h1 {
 }
 
 .about {
-    padding: 75px 0px 0px 0px;
+    padding: 4.688rem 0px 0px 0px;
 }
 
 .game {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 1.5rem;
     width: 100%;
 }
 
 .game-video {
-    width: 420px;
-    height: 315px;
+    width: 26.5rem;
+    height: 20rem;
 }
 
 .game-image {
-    width: 420px;
-    height: 315px;
+    width: 26.5rem;
+    height: 20rem;
     object-fit: cover;
+}
+
+.bp-image {
+    width: 60%;
+}
+
+.bp-video {
+    width: 60%;
+    height: 35rem;
+}
+
+.image-description {
+    padding-top: .75rem;
+    padding-bottom: 1.5rem;
 }
