@@ -24,27 +24,27 @@
         <p><span>Game Link: </span><a href="https://wockomtosh.itch.io/deep-sea-defender">https://wockomtosh.itch.io/deep-sea-defender</a></p>
 
         <h2>Boss AI</h2>
-        <iframe class="bp-video"
+        <iframe class="standalone-video"
             src="https://www.youtube.com/embed/xCXLX7VyV0I">   
         </iframe>
         <p class="image-description">
             One of my tasks in Deep Sea Defender was the implementation of the boss AI.
         </p>
         <h3>Behavior Tree</h3>
-        <img class="bp-image" src="..\images\BT_MiniBoss.png" alt="Boss Behavior Tree">
+        <img class="standalone-image" src="..\images\BT_MiniBoss.png" alt="Boss Behavior Tree">
         <p class="image-description">
             This is the main portion of the boss behavior tree. When the player enters the boss area, the boss alternates between
             following the player and attacking. The boss has 3 attacks that it can choose from.
         </p>
         <h3>Attack Sequence</h3>
-        <img class="bp-image" src="..\images\BT_MiniBoss_AttackLoop.png" alt="Attack sequence on behavior tree">
+        <img class="standalone-image" src="..\images\BT_MiniBoss_AttackLoop.png" alt="Attack sequence on behavior tree">
         <p class="image-description">
             When the attack cooldown is complete, the boss runs a task to choose its attack. This task checks whether or not the game is using Twitch integration. 
             If Twitch integration is active, the boss will look for the latest voting result from Twitch and use that to select an attack. Otherwise, it will select a random 
             attack.
         </p>
         <h3>Individual Attacks</h3>
-        <img class="bp-image" src="..\images\BT_MiniBoss_SingleAttack.png" alt="Single attack on behavior tree">
+        <img class="standalone-image" src="..\images\BT_MiniBoss_SingleAttack.png" alt="Single attack on behavior tree">
         <p class="image-description">
             Each attack has three parts. This was done to let other team members more easily add their animations or effects to the attack in the correct place. 
             From a programming perspective, the "begin" task sets up any values or prerequisites needed for the attack, the "execute" task actually performs the attack, 
@@ -54,7 +54,7 @@
         </p>
 
         <h2>Health System</h2>
-        <img class="bp-image" src="..\images\BPI_Health.png" alt="Health blueprint interface implementation">
+        <img class="standalone-image" src="..\images\BPI_Health.png" alt="Health blueprint interface implementation">
         <p class="image-description">
             Another of my tasks in the game was creating the health system. <br/> 
             The enemies and the player blueprints implement a blueprint interface for damage and death. The interface has functions for taking damage, dealing damage, 

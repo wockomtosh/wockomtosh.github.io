@@ -27,7 +27,10 @@ p {
     margin: 0;
     padding: .5em;
     text-align: left;
-    width: 60%
+    width: 80%;
+    @media (min-width:900px) {
+        width: 60%;
+    }
 }
 
 .navi-title {
@@ -88,28 +91,68 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     margin-bottom: 1.5rem;
     width: 100%;
 }
 
+.game-preview {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    @media (min-width:900px) {
+        flex-direction: row;
+        width: 60%
+    }
+}
+
 .game-video {
-    width: 26.5rem;
+    margin-top: .5rem;
+    width: 80%;
     height: 20rem;
+    @media (min-width:900px) {
+        width: 50%;
+        height: 35vh;
+    }
 }
 
 .game-image {
-    width: 26.5rem;
+    padding-top: .5rem;
+    padding-right: .25rem;
+    width: 80%;
     height: 20rem;
     object-fit: cover;
+    @media (min-width:900px) {
+        width: 50%;
+        height: 35vh;
+    }
 }
 
-.bp-image {
-    width: 60%;
+.standalone-image {
+    width: 80%;
+    @media (min-width:900px) {
+        width: 60%;
+    }
 }
 
-.bp-video {
-    width: 60%;
-    height: 35rem;
+.standalone-video {
+    width: 80%;
+    height: 20rem;
+    @media (min-width:900px) {
+        width: 60%;
+        height: 70vh;
+    }
+}
+
+.video-wrapper {
+    width: 100%;
+    height: 56vh;
+    @media (min-width:900px) {
+        width: 60%;
+        height: 80vh;
+    }
 }
 
 .image-description {
