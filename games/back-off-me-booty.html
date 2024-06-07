@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Back Off Me Booty</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+
+    <header>
+        <h2 class="navi-title">Jacob Liddle</h2>
+        <ul class="navi-list">
+            <li class="navi-item"><a href="../index.html#about">Home</a></li>
+            <li><a href="../JacobLiddleResume.pdf">Resume</a></li>
+        </ul>
+    </header>
+    
+
+    <div class="about">
+        <h1>Back Off Me Booty</h1>
+    </div>
+    <div class="section">
+        <p><span>Game Link: </span><a href="https://omgitscookietime.itch.io/back-off-me-booty">https://omgitscookietime.itch.io/back-off-me-booty</a></p>
+
+        <h2>Controller Programming</h2>
+        <img class="standalone-image" src="..\images\ControllerSetup.jpg" alt="Controller Picture">
+        <p class="image-description">
+            To use a seesaw as a controller we attached an Arduino Nano 33 IoT to the center of the seesaw along with a button on each side.
+            I programmed the Arduino to read the angle of the seesaw along with the on/off state of the buttons. 
+            That data is encoded into a 5-digit string and sent over the serial port 10 times per second. 
+            This frequency was initially meant to be a placeholder value, but after testing there didn't seem to be 
+            any issues with the frequency of the input, so I kept it at 10 Hz.
+            We initially used an Arduino Mega 2560 with an attached module, but switched to the Nano.
+            This was because the Mega 2560 was less consistent in giving the correct output. The Mega 2560 still works, but the Nano works better.
+            We also considered using the Bluetooth functionality of the Nano, but it was cut to save time as well as reduce input latency.
+        </p>
+        
+        <h2>Processing Controller Inputs</h2>
+        <img class="standalone-image" src="..\images\" alt="SerialCOM code?">
+        <p class="image-description">
+        </p>
+
+        <h2>Level Flow</h2>
+        <img class="standalone-image" src="..\images\" alt="Manager code?">
+        <p class="image-description">
+        </p>
+
+        <h2>Environment</h2>
+        <img class="standalone-image" src="..\images\" alt="Environment code?">
+        <p class="image-description">
+        </p>
+
+    </div>
+
+</body>
+</html>

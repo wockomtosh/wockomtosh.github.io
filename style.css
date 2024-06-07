@@ -52,16 +52,18 @@ p {
 
 header a {
     padding: .5rem;
+    text-decoration: none;
+    color: #444444;
 }
 
 a {
-  text-decoration: none;
-  color: #444444;
+    text-decoration: none;
+    color: #444444;
 }
 
 a:hover {
-  text-decoration: underline;
-  font-weight: normal;
+    text-decoration: underline;
+    font-weight: normal;
 }
 
 a p {
