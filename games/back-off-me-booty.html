@@ -29,9 +29,23 @@
             We also considered using the Bluetooth functionality of the Nano, but it was cut to save time as well as reduce input latency.
         </p>
         
-        <!-- <h2>Processing Controller Inputs</h2>
-        <img class="standalone-image" src="..\images\" alt="SerialCOM code?">
+        <h2>Processing Controller Inputs</h2>
         <p class="image-description">
+            To process the controller inputs in Unreal we needed a way to read from a serial COM port. Initially, we hoped to use the 
+            <a href="https://github.com/videofeedback/Unreal_Engine_SerialCOM_Plugin/releases">Unreal Engine SerialCOM Plugin</a> but 
+            we had issues with creating a build when that plugin was installed. There wasn't anything wrong with how the plugin functioned in the game,
+            so I wrote some code to mimic the functionality. I made sure that I thoroughly understood how the serial communication works for our use case. 
+            Throughout the development of the game we discussed adding more features to the controller, and I wanted to be prepared to make adjustments 
+            to how we handled serial communication if necessary. 
+            So while I could have just copied parts of the SerialCOM plugin, I decided to instead use it as a reference. I created a repository for testing purposes
+            that can be found <a href="https://github.com/wockomtosh/UnrealSerialCom/tree/main">here</a>. It contains links to the resources I used along with test code.
+            While testing and creating this code, I learned that I did not need to use all of the features that were available in the SerialCOM plugin, so my code 
+            only contains a few features that were necessary for our game.
+        </p>
+
+        <!-- <img class="standalone-image" src="..\images\" alt="Input BP stuff">
+        <p class="image-description">
+            
         </p>
 
         <h2>Level Flow</h2>
