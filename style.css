@@ -140,6 +140,10 @@ h1 {
     }
 }
 
+.short-description {
+    line-height: 1.25;
+}
+
 .standalone-image {
     width: 98%;
     @media (min-width:900px) {
@@ -168,4 +172,5 @@ h1 {
 .image-description {
     padding-top: .75rem;
     padding-bottom: 1.5rem;
+    line-height: 1.25;
 }

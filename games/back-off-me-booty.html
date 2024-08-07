@@ -43,12 +43,31 @@
             only contains a few features that were necessary for our game.
         </p>
 
-        <!-- <img class="standalone-image" src="..\images\" alt="Input BP stuff">
+        <img class="standalone-image" src="..\images\BOMBConnectToSerialPort.png" alt="Connect to Serial Port Blueprint">
         <p class="image-description">
-            
+            We can use this code in a blueprint to easily open a serial port. When our Arduino is plugged into a computer the COM port that it uses varies from machine to machine.
+            To avoid requiring us to check which port the Arduino is using, I used a for loop that checks ports 1 through 10 for a device and returns once a port is opened.
+            This requires us to make sure that no other devices are connected to a COM port with a lower number than the Arduino, but this was rarely an issue for us.
+            After a connection with the Arduino is established, the input read loop starts.
         </p>
 
-        <h2>Level Flow</h2>
+        <img class="standalone-image" src="..\images\BOMBInputLoop.png" alt="Read Input Loop Blueprint">
+        <p class="image-description">
+            The input read loop reads a line from the serial port, checks that it is a valid input, and then parses that input to be used elsewhere in the player controller.
+            The read loop is simple at its core, but inconsistencies in the Arduino's output requires accounting for some edge cases. These edge cases were reduced 
+            when we switched from the Arduino Mega 2560 to the Arduino Nano 33 IoT, but the code was still useful to keep in place so that either device could be used.
+            The most important edge case was that occasionally the Arduino will output the data in two separate lines or it will output partial data. In this situation we 
+            flush the port and try again. If there are too many failures we close the port and reopen it to try to fix the problem. This was initially necessary for an early 
+            version of the Arduino code in which the Arduino would crash due to a memory leak that I had missed. Resetting the port would reset the Arduino and fix the problem.
+        </p>
+
+        <!-- <h2>Smoothing Rotation</h2>
+        <img class="standalone-image" src="..\images\" alt="Rotation algorithm stuff">
+        <p class="image-description">
+            The input is constantly checked on the controller so that we can be synced up with the tilt of the seesaw.
+        </p> -->
+
+        <!-- <h2>Level Flow</h2>
         <img class="standalone-image" src="..\images\" alt="Manager code?">
         <p class="image-description">
         </p>
