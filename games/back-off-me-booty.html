@@ -22,8 +22,8 @@
             To use a seesaw as a controller we attached an Arduino Nano 33 IoT to the center of the seesaw along with a button on each side.
             I programmed the Arduino to read the angle of the seesaw along with the on/off state of the buttons. 
             That data is encoded into a 5-digit string and sent over the serial port 10 times per second. 
-            This frequency was initially meant to be a placeholder value, but after testing there didn't seem to be 
-            any issues with the frequency of the input, so I kept it at 10 Hz.
+            This frequency was initially meant to be a placeholder value, but after processing the inputs there didn't seem to be 
+            any issues with the frequency, so I kept it at 10 Hz.
             We initially used an Arduino Mega 2560 with an attached module, but switched to the Nano.
             This was because the Mega 2560 was less consistent in giving the correct output. The Mega 2560 still works, but the Nano works better.
             We also considered using the Bluetooth functionality of the Nano, but it was cut to save time as well as reduce input latency.
@@ -54,7 +54,7 @@
         <img class="standalone-image" src="..\images\BOMBInputLoop.png" alt="Read Input Loop Blueprint">
         <p class="image-description">
             The input read loop reads a line from the serial port, checks that it is a valid input, and then parses that input to be used elsewhere in the player controller.
-            The read loop is simple at its core, but inconsistencies in the Arduino's output requires accounting for some edge cases. These edge cases were reduced 
+            The read loop is simple at its core, but inconsistencies in the Arduino's output require accounting for some edge cases. These edge cases were reduced 
             when we switched from the Arduino Mega 2560 to the Arduino Nano 33 IoT, but the code was still useful to keep in place so that either device could be used.
             The most important edge case was that occasionally the Arduino will output the data in two separate lines or it will output partial data. In this situation we 
             flush the port and try again. If there are too many failures we close the port and reopen it to try to fix the problem. This was initially necessary for an early 
@@ -62,9 +62,17 @@
         </p>
 
         <!-- <h2>Smoothing Rotation</h2>
-        <img class="standalone-image" src="..\images\" alt="Rotation algorithm stuff">
+        <img class="standalone-image" src="..\images\AlignAlgorithm.png" alt="Align algorithm code">
         <p class="image-description">
-            The input is constantly checked on the controller so that we can be synced up with the tilt of the seesaw.
+            The input is constantly checked on the controller so that the game is synced up with the tilt of the seesaw. However, if we set the angle of the ship to match the 
+            angle of the seesaw directly the result is choppy. The options available to fix this were to increase the frequency of the input or use an algorithm to 
+            produce a smoother result. Because of the inconsistencies that the Arduino produced at 10 Hz, there were already stutters and mistakes in the angle of the ship.
+            Using a higher frequency would still result in stutters when an input is sent incorrectly. So I decided to first try a smoothing algorithm. 
+            I used a Dynamic Align algorithm to achieve this.
+        </p>
+        <img class="standalone-image" src="..\images\RotationAlgorithm.png" alt="Rotation algorithm in player controller">
+        <p class="image-description">
+            
         </p> -->
 
         <!-- <h2>Level Flow</h2>
