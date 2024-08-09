@@ -61,19 +61,28 @@
             version of the Arduino code in which the Arduino would crash due to a memory leak that I had missed. Resetting the port would reset the Arduino and fix the problem.
         </p>
 
-        <!-- <h2>Smoothing Rotation</h2>
+        <h2>Smoothing Rotation</h2>
         <img class="standalone-image" src="..\images\AlignAlgorithm.png" alt="Align algorithm code">
         <p class="image-description">
             The input is constantly checked on the controller so that the game is synced up with the tilt of the seesaw. However, if we set the angle of the ship to match the 
             angle of the seesaw directly the result is choppy. The options available to fix this were to increase the frequency of the input or use an algorithm to 
-            produce a smoother result. Because of the inconsistencies that the Arduino produced at 10 Hz, there were already stutters and mistakes in the angle of the ship.
+            produce a smoother result. Because of the inconsistencies that the Arduino produced at 10 Hz, there were already  occasional stutters and mistakes in the angle of the ship.
             Using a higher frequency would still result in stutters when an input is sent incorrectly. So I decided to first try a smoothing algorithm. 
-            I used a Dynamic Align algorithm to achieve this.
+            I used a Dynamic Align algorithm to achieve this. This algorithm does not modify the angle of the ship directly, but rather outputs an angular acceleration to 
+            smoothly reach our desired position. The algorithm is given current orientation, current rotation speed, and a target orientation, along with other 
+            properties that tune the movement behavior. We use a slow radius to determine when we should begin to slow down in preparation to stop, and a target radius to 
+            determine when we are within an acceptable range to stop. First, we find how far away we are from our desired orientation and in which direction we need to 
+            move to reach it. If we are outside of the slow radius, we output maximum acceleration in the desired direction. If we are within the target radius, we 
+            output an acceleration that will bring our rotation speed to 0. If we are within the slow radius, we set a desired speed that scales down based on how close we are 
+            to the target orientation, and output an acceleration to target that speed. 
         </p>
         <img class="standalone-image" src="..\images\RotationAlgorithm.png" alt="Rotation algorithm in player controller">
         <p class="image-description">
-            
-        </p> -->
+            The output of this algorithm is used on event tick to always keep the ship's rotation in sync with the seesaw. The acceleration is converted to a speed based on 
+            delta time and applied to a rotating movement component on the ship object. This allows us to smoothly accelerate and stop without stutters. 
+            This algorithm does introduce a slight delay in the movement. Because it focuses on acceleration and smoothness, it will lag slightly behind the actual tilt of the 
+            seesaw as it accelerates and decelerates. In testing we found it was not significant enough to cause problems, and it looked significantly better than before.
+        </p>
 
         <!-- <h2>Level Flow</h2>
         <img class="standalone-image" src="..\images\" alt="Manager code?">
