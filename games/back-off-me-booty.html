@@ -84,15 +84,53 @@
             seesaw as it accelerates and decelerates. In testing we found it did not cause problems, and it looked significantly better than before.
         </p>
 
-        <!-- <h2>Level Flow</h2>
-        <img class="standalone-image" src="..\images\" alt="Manager code?">
+        <h2>Environment</h2>
+        <div class="game-preview">
+            <img class="game-image" src="..\images\MorningEnvironment.png" alt="Level 1 morning environment">
+            <img class="game-image" src="..\images\DaytimeEnvironment.png" alt="Level 3 foggy environment">
+        </div>
         <p class="image-description">
+            Rather than having the player's ship move through the environment, we decided to have the environment move past the ship. This allowed us to not worry about how 
+            long it would take players to complete any given level, and to allow us to change the length of the level based on the number of enemies we spawned in. 
+            I made an environment manager to drive this. It spawns environment objects, moves them through the scene, and despawns them once they are no longer visible.
+            When an object is spawned, it is given a random rotation and a random mesh from a list that is passed in. This allowed us to make fewer assets but have additional
+            variety in the environment. The rotation can be constrained to the z-axis only for objects like islands. The speed of the object is also set so that 
+            objects that are further away can move at different speeds to look more realistic. The spawning function runs in a loop that has a minimum delay between objects 
+            and a maximum variance in that delay. Several of these loops can be run at the same time to allow for different types of objects to be spawned consistently at different 
+            distances and speeds. In each level 1 or 2 of these loops spawn objects on each side of the ship. 
+        </p>
+        <div class="game-preview">
+            <img class="game-image" src="..\images\BossEnvironment.png" alt="Level 1 morning environment">
+            <img class="game-image" src="..\images\FogEnvironment.png" alt="Level 3 foggy environment">
+        </div>
+        <p class="image-description">
+            In addition to spawning objects, the environment manager changes other properties about the environment. The color of the water texture is adjusted along with the skybox 
+            to give the illusion of changing weather and time of day. In the fog and boss levels the lighting is also changed to better match the desired effect. For the fog level,
+            additional fog volumes are activated. In the boss level, there are rain and lightning effects that replace the wind effect present in the other levels. The lightning 
+            effect picks a random location along a plane in which to play a lightning strike. The way I implemented the lightning seems somewhat inefficient, but I ran out of time to 
+            investigate it further. Moving forward I'd like to learn how to better work with the VFX that my team creates. 
         </p>
 
-        <h2>Environment</h2>
-        <img class="standalone-image" src="..\images\" alt="Environment code?">
+        <h2>Level Flow</h2>
+        <img class="standalone-image" src="..\images\BOMBMainMenu.png" alt="BOMB Main Menu">
         <p class="image-description">
-        </p> -->
+            I created a level manager to handle the overall state of the game, transitions between levels, and communicate with other game managers.
+            The level manager directs the environment, enemy, and boss managers. The boss and enemy managers were created by other engineers.
+            When the game starts, the players are shown objects in the world in place of a traditional UI menu. To start the game, each player must shoot the object 
+            that says "Start Game." This sends a message to the level manager to begin the first level. 
+        </p>
+
+        <div class="game-preview">
+            <img class="game-image" src="..\images\Lvl1Screen.png" alt="Level 1 transition screen">
+            <img class="game-image" src="..\images\LoseScreen.png" alt="Lose transition screen">
+        </div>
+        <p class="image-description">
+            To start each level, the level manager shows a transition screen to both players and notifies the environment manager to update to the current level. 
+            After the transition screen is complete, the level manager tells the enemy manager to begin spawning enemies according to the level. 
+            It also sets the music based on the current level. After all enemies are defeated, the enemy manager sends a message back to the level manager and 
+            the process is repeated. When the boss level is reached, the level manager instead sends a message to the boss manager to begin the boss fight. 
+            After the player defeats the boss or their HP drops to 0, the level manager shows an appropriate transition, resets the game state, and returns to the main menu.
+        </p>
 
     </div>
 
