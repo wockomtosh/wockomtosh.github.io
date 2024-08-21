@@ -16,10 +16,29 @@
     <div class="section">
         <p><span>Game Link: </span><a href="https://omgitscookietime.itch.io/back-off-me-booty">https://omgitscookietime.itch.io/back-off-me-booty</a></p>
 
-        
+        <div class="table-of-contents">
+            <ol>
+                <li><a href="#controller-details">Controller Details</a>
+                    <ol>
+                        <li><a href="#controller-programming">Controller Programming</a></li>
+                        <li><a href="#processing-inputs">Processing Controller Inputs</a></li>
+                        <li><a href="#smoothing-rotation">Smoothing Rotation</a></li>
+                    </ol>
+                </li>
+    
+                <li><a href="#other-systems">Other Systems</a>
+                    <ol>
+                        <li><a href="#environment">Environment</a></li>
+                        <li><a href="#level-flow">Level Flow</a></li>
+                    </ol>
+                </li>
+                
+            </ol>
+        </div>
 
-        <h2>Controller Details</h2>
-        <h3>Controller Programming</h3>
+        <h2 id="controller-details">Controller Details</h2>
+        
+        <h3 id="controller-programming">Controller Programming</h3>
         <img class="standalone-image" src="..\images\ControllerSetup.jpg" alt="Controller Picture">
         <p class="image-description">
             To use a seesaw as a controller we attached an Arduino Nano 33 IoT to the center of the seesaw along with a button on each side.
@@ -32,7 +51,7 @@
             We also considered using the Bluetooth functionality of the Nano, but it was cut to save time as well as reduce input latency.
         </p>
         
-        <h3>Processing Controller Inputs</h3>
+        <h3 id="processing-inputs">Processing Controller Inputs</h3>
         <p class="image-description">
             To process the controller inputs in Unreal we needed a way to read from a serial COM port. Initially, we hoped to use the 
             <a href="https://github.com/videofeedback/Unreal_Engine_SerialCOM_Plugin/releases">Unreal Engine SerialCOM Plugin</a> but 
@@ -64,7 +83,7 @@
             version of the Arduino code in which the Arduino would crash due to a memory leak that I had missed. Resetting the port would reset the Arduino and fix the problem.
         </p>
 
-        <h3>Smoothing Rotation</h3>
+        <h3 id="smoothing-rotation">Smoothing Rotation</h3>
         <img class="standalone-image" src="..\images\AlignAlgorithm.png" alt="Align algorithm code">
         <p class="image-description">
             The input is constantly checked on the controller so that the game is synced up with the tilt of the seesaw. However, if we set the angle of the ship to match the 
@@ -87,8 +106,8 @@
             seesaw as it accelerates and decelerates. In testing we found it did not cause problems, and it looked significantly better than before.
         </p>
 
-        <h2>Other Systems</h2>
-        <h3>Environment</h3>
+        <h2 id="other-systems">Other Systems</h2>
+        <h3 id="environment">Environment</h3>
         <div class="game-preview">
             <img class="game-image" src="..\images\MorningEnvironment.png" alt="Level 1 morning environment">
             <img class="game-image" src="..\images\DaytimeEnvironment.png" alt="Level 3 foggy environment">
@@ -115,7 +134,7 @@
             investigate it further. Moving forward I'd like to learn how to better work with the VFX that my team creates. 
         </p>
 
-        <h3>Level Flow</h3>
+        <h3 id="level-flow">Level Flow</h3>
         <img class="standalone-image" src="..\images\BOMBMainMenu.png" alt="BOMB Main Menu">
         <p class="image-description">
             I created a level manager to handle the overall state of the game, transitions between levels, and communicate with other game managers.
