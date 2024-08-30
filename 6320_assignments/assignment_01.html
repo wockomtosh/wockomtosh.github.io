@@ -19,6 +19,34 @@
             </a>
         </p>
         
+        <p class="image-description">
+            This is a writeup for my first assignment in GAMES6320. So far, my expectation from the class is that we will practice good system design in the context of 
+            expanding an exisiting game engine. I'm really excited about this, because going into this semester I have realized that this is a weak spot for me. In the games that 
+            I have worked on it hasn't been too difficult to implement any individual feature. But designing those features to work together in a clean way has been more challenging,
+            particularly since my longest project in the program so far has been a single semester (which has led to a lot of quick-and-dirty code). So I'm excited to dedicate time to practicing this skill. Another thing I'm excited
+            to learn from this class is more of the inner workings of game engines. I've learned bits and pieces over time, but it will be fun to work on this more in-depth. <br/><br/>
+            This first assignment has focused less on code and more about the overall structure of a program like this. If we're going to design a new system for an engine, 
+            we need to know how to add a new project to a large program. So the first part of the assignment was to connect a provided graphics library to a provided engine.
+            By doing this I was able to learn about libraries, references, and build order. Doing this was pretty straightforward, but felt like good practice for me. <br/><br/>
+            The second part of the assignment was to create a game project that uses the engine but exists separately. This reinforced what I learned in the first part. 
+            I was also given practice wrestling with obscure errors that came up as I missed small steps or misunderstood different parts incorrectly. This included linker errors,
+            errors in building the project, and errors in doing things correctly but thinking that it was incorrect. One part in particular that was confusing for me was that the 
+            directions I was given made it seem like I should be able to set things up properly to be able to press the debug button to run the project without issues. In reality, 
+            the expectation was that I would build game assets that the game relies on, and then I would be able to build the main game project with the debug button. Because I expected
+            this to be different than it was, I ended up spending a lot of time looking into it, and adding the game assets project as a reference for the main game, which I later learned was incorrect. I also worked on this 
+            assignment across 2 machines, which caused issues when things were set up properly on one machine but not the other. Another difficult issue was that when I was setting up 
+            certain build properties I accidentally set them up for the debug configurations only. I kept checking those same properties, and even set them correctly on all configurations 
+            in most cases, but there were some properties where I missed that the dropdown menu had "Debug" listed rather than "All Configurations." <br/><br/>
+            The final part of the assignment was to customize our "game." Initially the game had just a window with a white triangle. Per the requirements, 
+            I changed the title of the window along with the icon, added some log messages, and animated the color of the triangle. This required searching through the code a bit, 
+            but it was very quick and easy. The header file for the logging system was very clear and easy to use, and the code for the title and icon was easy to find and change.
+            Animating the triangle was a bit trickier since I needed to make sure that the program knew where to find the shader. In the place where the shader was loaded I initially 
+            tried to get a fragment shader along with a vertex shader when I had only created a fragment shader, so that slowed me down. As recommended, I changed the RGB 
+            values of the color by passing the simulation time into a sine function, clamping the output between 0 and 1, and passing that into the RGB values. 
+            I used three sine functions and offset the period of each to have red, green, and blue be dominant at different times.
+        </p>
+
+
 
         <img src="images\game01.png" alt="Game Picture">
         <p class="image-description">
@@ -32,8 +60,22 @@
         </p>
 
         <p class="image-description">
-            Here’s a screenshot of my log file. I added “Initializing Jacob Liddle's MyGame” and “Cleaning up Jacob Liddle's MyGame.”
+            The Application project was the only one that needed to add a reference to the new Graphics project. The ShaderBuilder tool that sits outside the engine itself uses
+            the Graphics::eShaderType enum in the Graphics project, but because that enum is defined in a header file it does not require a reference.
+            The Graphics project needed the following references to work properly: Asserts, Assets, Concurrency, Logging, Math, OpenGlExtensions, Platform, Results, 
+            ScopeGuard, Time, UserOutput, and Windows. Finding these references was straightforward, I just went through the header files of the Graphics library and added references
+            for each project that I saw in the includes there.
         </p>
+
+        <p class="image-description">
+            Tell us about any thoughts you have about the engine code base that has been provided to you
+            How is it organized? Is there anything that you like or don't like about the organization?
+            What do you think of the code style? Is there anything that you like or don't like about it?
+            Is there anything that you were initially confused about? Tell us why you were confused and what you figured out to not be confused.
+
+
+        </p>
+        
 
     </div>
 
