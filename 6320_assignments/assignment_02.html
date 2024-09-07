@@ -21,7 +21,31 @@
         
         <img src="images\game02.png" alt="Game Picture">
         <p class="image-description">
-            This is assignment 2 for GAMES6320. 
+            This is assignment 2 for GAMES6320. In this assignment I learned more about splitting up platform specific code, when and what to refactor, 
+            and different ways I could organize classes and functionality. In class we also talked about different kinds of budgets, and I was able to apply that knowledge
+            as well. I worked on the assignment well before the due date because I knew that Thursday and Friday would be busy due to a showcase for a previous game I worked on. 
+            However, I didn't expect that Wednesday would also be almost entirely consumed by this showcase. Luckily, because I knew I had a busy week ahead, I knew that my budget of 
+            time was very limited, and this influenced my decisions in the assignment. I initially wanted to make various improvements as I went, particularly to the mesh class.
+            For example, I wanted to make the number of triangles and the triangle data member variables. However, because I knew my time was short, I kept my refactoring to the bare 
+            minimum, and I just extracted the code that needed to be removed from the Graphics.[platform].cpp files and didn't do very much extra work there. However, doing this still 
+            fulfilled the requirements and made the code much cleaner overall. <br/><br/>
+            Overall, this assignment felt really simple and straightforward. The code in the Graphics cpp files was organized so that the mesh/effect code was pretty well marked. 
+            From how the code was organized combined with my previous experience, it made sense to have 3 basic functions: Initialize, Draw, and Cleanup. For the mesh, each of these 
+            was completely platform specific, so I left the code completely in platform specific cpp files. For the effects there was more of a mix. I decided to handle this by having 
+            the main 3 functions public and create private functions to hold platform specific code (ex: DrawPlatformSpecific()). To me this all felt obvious, though I wouldn't be 
+            surprised to learn about situations that call for a very different implementation. Adding the second triangle to the mesh was also trivial because the mesh data was 
+            hard-coded. As discussed before, I wanted to change that but my time budget didn't allow for it. <br/><br/>
+            The remaining differences between Graphics.d3d.cpp and Graphics.gl.cpp are that they set up the clear color differently, they have different ways of setting up the viewport, 
+            and how the depth buffer/back buffer are set up. My first thought is that each of these 3 sets of functionality could have its own class. The tricky one seems to be the viewport, 
+            because the D3D file has a lot of code that deals with views, but I don't see anything like that in the OpenGL file. I may need to create a class like a viewport that only 
+            really gets used by D3D, but is called anyways by OpenGL in a unified Graphics.cpp file. Creating a class or function library for setting up the clear color seems straightforward. 
+            The more I think about it, using something like a function library rather than a class for the clear color and buffers makes the most sense to me, because it doesn't seem like I need to store  
+            most of that information in Graphics, I just need to pass it into OpenGL/D3D. I'll need to investigate further into how those are used throughout the files to see what is the best option.
+        </p>
+
+        <img src="images\BindDrawCode.png" alt="Mesh and Effect code">
+        <p class="image-description">
+            This is my code that binds the effect and draws the mesh, it now uses platform independent interfaces. 
         </p>
 
         <div class="game-preview">
@@ -29,7 +53,7 @@
             <img class="game-image" src="images\DrawD3DFrame.png" alt="Mesh D3D Debug Picture">
         </div>
         <p class="image-description">
-            Here are images of the D3D GPU debugger (open in a new tab to see them larger).
+            Here are images of the visual studio D3D GPU debugger (open images in a new tab to see them larger).
         </p>
 
         <div class="game-preview">
@@ -39,16 +63,8 @@
         </div>
 
         <p class="image-description">
-            Here are images of the OpenGL GPU debugger (open in a new tab to see them larger).
-        </p>
-
-        <p class="image-description">
-            
-        </p>
-
-        <p class="image-description">
-            
-        </p>      
+            Here are images of the OpenGL GPU debugger (open images in a new tab to see them larger).
+        </p>  
 
     </div>
 
