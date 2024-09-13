@@ -21,10 +21,32 @@
         
         <img src="images\game03.png" alt="Game Picture">
         <p class="image-description">
-            This is assignment 3 for GAMES6320. In this assignment I learned...
+            This is assignment 3 for GAMES6320. In this assignment I learned more about refactoring code, making design decisions for 
+            systems, and creating platform-independent code. The main focus of this assignment was to take our Graphics.platform.cpp files
+            and combine them into one completely platform-independent Graphics.cpp file. A second focus was to make our mesh and effect representations
+            more flexible by allowing them to be initialized with custom data rather than having everything hard-coded. 
             <br/><br/>
-            To make Graphics.cpp platform-independent I...
+            To make Graphics.cpp platform-independent I created a function library called GraphicsBuffers. The platform-specific differences between
+            OpenGL and D3D were mostly focused around how the different buffers were treated. They cleared the frame and depth buffers differently and 
+            swapped the back buffer differently. So I made three functions: ClearFrameBuffer() that takes in a color to be the clear color,
+            ClearDepthBuffer(), and SwapBackBuffer(). All of the platform specific code went into .cpp files for the GraphicsBuffer. The problem with this 
+            implementation was that D3D uses views in some of these steps. I couldn't find an equivalent representation of views for OpenGL, so I decided 
+            to keep my view representation purely behind D3D. However, views need to be initialized and cleaned up, so I created Initialize() and CleanUp() functions for my 
+            GraphicsBuffers function library. This worked well. I could have also made a View interface that would be used in Graphics.cpp, but I had a hard time 
+            figuring out how to pass those views into GraphicsBuffers in a way that didn't feel wrong to me, so I just put it on the D3D side. I still don't completely
+            like my current implementation because the Initialize() and CleanUp() GraphicsBuffers functions are just empty on the OpenGL implementation, but 
+            I couldn't come up with something better. After finishing this, Graphics.cpp was completely platform-independent. I also created a Color struct 
+            that makes passing around colors a little bit easier, but it doesn't have any platform-specific differences.
+            Currently it's only used for setting the clear color. 
             <br/><br/>
+            Setting up effects to not have hard-coded data was pretty trivial, but doing the same for meshes was much harder. The biggest reason 
+            for this is that I did not properly understand how index buffers are supposed to work. My initial implementation required the user to pass in 
+            their vertex data with information about every triangle, and then I just set the index data to match that. However, after some conversations 
+            with a friend who knew more (shoutout to Gabe) and additional explanation in class, I fixed this so that the user is required to pass in index buffer 
+            data in addition to vertex data. Aside from this, I ran into a lot of issues that resulted from not understanding how the data was used. 
+            For example, I didn't realize at first that I needed to separate the vertex and index buffer pointers in D3D to be member variables. This made it so that 
+            when I tried to draw 2 meshes only one appeared, because I was trying to initialize 2 meshes into the same place. Once I realized the issue this wasn't 
+            a complicated fix.
         </p>
 
         <img src="images\ClearColor.png" alt="Using the clear color interface">
@@ -67,7 +89,8 @@
 
         <p class="image-description">
             Because the necessary data has several differences between OpenGL and D3D, I decided to store that data in a struct and 
-            define the struct differently in each .cpp file. Both implementations need a number of triangles that is used when drawing.
+            define the struct differently in each .cpp file. By doing this I didn't need to include any D3D or OpenGL files in the header, 
+            only in the .cpp files. Both implementations need a number of triangles that is used when drawing.
             OpenGL needs an ID for the vertex buffer, vertex array, and index buffer. D3D needs a pointer each for the vertex format, 
             vertex buffer, and index buffer. Both implementations hold a pointer to this struct rather than holding an instance 
             of the struct. The OpenGL implementation has a size of 8 because of the 32 bit unsigned int and a 32 bit pointer. 
