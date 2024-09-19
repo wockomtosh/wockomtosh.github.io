@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assignment 04</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Assignment 04 Writeup</h1>
+        
+    </div>
+    <div class="section">
+
+        <p class="image-description">
+            <a href="zips/MyGame4.zip" download>
+                Download MyGame
+            </a>
+        </p>
+        
+        <img src="images\game04.png" alt="Game Picture">
+        <p class="image-description">
+            This is assignment 4 for GAMES6320. In this assignment I...
+            <br/><br/>
+            Talk about how I had some nullptr exceptions that were tricky to find.
+            <br/><br/>
+            
+        </p>
+
+        <img src="images\game04_NoMesh.png" alt="Game Picture without one mesh">
+        <p class="image-description">
+            This is my game but the square is missing. The user can do this by pressing Z.
+        </p>
+
+        <img src="images\game04_DifferentEffect.png" alt="Game Picture with a different effect">
+        <p class="image-description">
+            This is my game but the white triangle is now colored like the other mesh. The user can do this by pressing X.
+        </p>
+
+        <img src="images\ColorMeshSubmission.png" alt="Code that submits color, meshes, and effects for drawing">
+        <p class="image-description">
+            This the code that submits background color and mesh/effect pairs for drawing. I decided to not make the game programmer 
+            set up a struct or anything for the mesh/effect pair, that is all handled in graphics. This way the user can just submit a mesh with an accompanying 
+            effect and that's it. It also obscures future updates from the user. For example, if I want multiple meshes drawn with a single effect 
+            or if I wanted to not put the pairs into a struct, I could update the graphics code to do that without needing any changes to be made in the game code.
+            I'm thinking about updating it in the future to take in the data and check if that effect is being used elsewhere, and then putting those next to each 
+            other somehow to make it so we only have to bind one effect for both meshes. It's probably more complicated than what I understand, but I think this makes 
+            it easier to do that if I decide to later.
+            <br/><br/>
+            WHY DO WE SUBMIT THE WAY WE DO? In other words, why do we have to cache all of the data for a single frame rather than just rendering things immediately?
+        </p>
+
+        <img src="images\EffectData04.png" alt="Effect data">
+        <p class="image-description">
+            The effect data only added a uint16_t for reference counting.
+
+            Here is the list of member variables stored in my Effect. The name of the shader doesn't need to be stored as long as we 
+            have pointers to our vertex shader and fragment shader representations. For OpenGL we also need a programId. 
+            For D3D the sizeof() function returns 48, while in OpenGL it returns 16. While it may seem that OpenGL should be larger because of the 
+            programId, the implementation of cRenderState for D3D makes the D3D version much larger. It holds 3 pointers in the D3D implementation
+            that aren't present in OpenGL. Additionally, because OpenGL is running in the x86 platform the pointers are 4 bytes instead of 8 which makes a big difference. 
+            The effect can't be any smaller because we have to have some way of referencing our shaders and the render state for each effect (and the programId for OpenGL).
+            If any of these are shared between effects they will not work properly. 
+        </p>
+
+        <img src="images\MeshData04.png" alt="Mesh data"> <br/>
+        <img src="images\MeshDataOpenGL.png" alt="OpenGL Mesh data"><br/>
+        <img src="images\MeshDataD3D.png" alt="D3D Mesh data">
+
+        <p class="image-description">
+            The mesh data also only added a uint16_t for reference counting. The platform-specific data is the same as before.
+
+            Because the necessary data has several differences between OpenGL and D3D, I decided to store that data in a struct and 
+            define the struct differently in each .cpp file. By doing this I didn't need to include any D3D or OpenGL files in the header, 
+            only in the .cpp files. Both implementations need a number of triangles that is used when drawing.
+            OpenGL needs an ID for the vertex buffer, vertex array, and index buffer. D3D needs a pointer each for the vertex format, 
+            vertex buffer, and index buffer. Both implementations hold a pointer to this struct rather than holding an instance 
+            of the struct. The OpenGL implementation has a size of 8 because of the 32 bit unsigned int and a 32 bit pointer. 
+            D3D has a size of 16 because of the 64 bit unsigned int and a 64 bit pointer. If the struct wasn't a pointer, the two 
+            platforms would be more similar in size. D3D would be larger if using 64 bit pointers, but with 32 bit pointers it would be the 
+            same size, since the size of GLuint is 32 bits. None of this information can be removed while still defining a mesh. We might 
+            be able to remove the number of triangles and calculate that using the index data, but that information would still need to be 
+            stored unless we wanted to store the index data directly, which would take much more space.
+        </p>  
+
+    </div>
+
+</body>
+</html>
