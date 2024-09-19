@@ -21,11 +21,18 @@
         
         <img src="images\game04.png" alt="Game Picture">
         <p class="image-description">
-            This is assignment 4 for GAMES6320. In this assignment I...
+            This is assignment 4 for GAMES6320. In this assignment I separated out the graphics code from the game code. This gave me further
+            practice in refactoring and bug fixing. It also gave me more practice in designing user-friendly interfaces. This will also prepare 
+            the code to be threaded later on. In this assignment I also made my meshes and effects reference-counted.
             <br/><br/>
-            Talk about how I had some nullptr exceptions that were tricky to find.
-            <br/><br/>
-            
+            Getting the background color submitted from the game files was pretty trivial, though I ran into an issue because my color struct didn't 
+            have a default constructor. Adding reference counting to my mesh and effect was also pretty easy, but loading them in the game was trickier. 
+            I ran into an error from having a circular dependency with my includes, and that was difficult to track down. I'm learning why lots of 
+            these files have includes in the .cpp file rather than header files when possible. Submitting the meshes and effects to be rendered from the game felt daunting at first 
+            but ended up being pretty easy as well. I will discuss that more by the submission code. There was another tricky bug that came up in the end where I would 
+            get nullptr exceptions, but only when the assets weren't built. I'm glad I tested for it. It took me a while to parse through the errors, but eventually I realized 
+            that when I was incrementing the references for meshes and effects I wasn't checking to make sure they weren't null. 
+            Overall, the assignment wasn't too bad. It was really good practice and doing this writeup has been very helpful in solidifying what I'm learning about systems design.
         </p>
 
         <img src="images\game04_NoMesh.png" alt="Game Picture without one mesh">
@@ -48,20 +55,9 @@
             other somehow to make it so we only have to bind one effect for both meshes. It's probably more complicated than what I understand, but I think this makes 
             it easier to do that if I decide to later.
             <br/><br/>
-            WHY DO WE SUBMIT THE WAY WE DO? In other words, why do we have to cache all of the data for a single frame rather than just rendering things immediately?
-        </p>
-
-        <img src="images\EffectData04.png" alt="Effect data">
-        <p class="image-description">
-            The effect data only added a uint16_t for reference counting.
-
-            Here is the list of member variables stored in my Effect. The name of the shader doesn't need to be stored as long as we 
-            have pointers to our vertex shader and fragment shader representations. For OpenGL we also need a programId. 
-            For D3D the sizeof() function returns 48, while in OpenGL it returns 16. While it may seem that OpenGL should be larger because of the 
-            programId, the implementation of cRenderState for D3D makes the D3D version much larger. It holds 3 pointers in the D3D implementation
-            that aren't present in OpenGL. Additionally, because OpenGL is running in the x86 platform the pointers are 4 bytes instead of 8 which makes a big difference. 
-            The effect can't be any smaller because we have to have some way of referencing our shaders and the render state for each effect (and the programId for OpenGL).
-            If any of these are shared between effects they will not work properly. 
+            It makes sense to cache all of our frame data before rendering because we will be rendering in a separate thread from the game. Caching everything first 
+            makes sychronization easier and also makes sure that everything for the frame is finalized before it is rendered. We can know that we won't be submitting something 
+            to be rendered mid-frame, which could potentially cause issues. 
         </p>
 
         <img src="images\MeshData04.png" alt="Mesh data"> <br/>
@@ -70,19 +66,39 @@
 
         <p class="image-description">
             The mesh data also only added a uint16_t for reference counting. The platform-specific data is the same as before.
-
-            Because the necessary data has several differences between OpenGL and D3D, I decided to store that data in a struct and 
-            define the struct differently in each .cpp file. By doing this I didn't need to include any D3D or OpenGL files in the header, 
-            only in the .cpp files. Both implementations need a number of triangles that is used when drawing.
-            OpenGL needs an ID for the vertex buffer, vertex array, and index buffer. D3D needs a pointer each for the vertex format, 
-            vertex buffer, and index buffer. Both implementations hold a pointer to this struct rather than holding an instance 
-            of the struct. The OpenGL implementation has a size of 8 because of the 32 bit unsigned int and a 32 bit pointer. 
-            D3D has a size of 16 because of the 64 bit unsigned int and a 64 bit pointer. If the struct wasn't a pointer, the two 
-            platforms would be more similar in size. D3D would be larger if using 64 bit pointers, but with 32 bit pointers it would be the 
-            same size, since the size of GLuint is 32 bits. None of this information can be removed while still defining a mesh. We might 
-            be able to remove the number of triangles and calculate that using the index data, but that information would still need to be 
-            stored unless we wanted to store the index data directly, which would take much more space.
+            In D3D sizeof(cMesh) with the code shown gives 24. This was larger than I anticipated, previously it gave a size of 16. However, I realized that I misunderstood
+            how the size worked before. I know that there are some data types that vary in length between 32-bit and 64-bit architecture, and I thought that 
+            int was one of them. However, I was wrong in this case. The reason it was 16 bytes before is that it had a 64-bit pointer and a 32-bit unsigned int
+            and it was 8 byte aligned, so there were 4 bytes of padding. I was taught that to be the most cache friendly you should generally list your largest
+            data members first. Because I thought that the pointer and int were the same size, I didn't pay attention to the order. However, if I change the order to 
+            have the int next to the uint16_t declaration (inside the macro), it reduces the size of the mesh back down to 16 (this time with only 2 bytes of padding). This was a silly mistake 
+            but it was easy to fix. 
+            In OpenGL the size eincreaseds from 8 to 12, and there isn't a way to optimize this further.
+            The platform-specific data behind the pointer to the struct is the same and does not need to be changed. One thing I considered doing that 
+            would have made the mesh bigger was to store a pointer to the effect within the mesh to avoid creating a struct for mesh/effect pairs. I think this might not be 
+            a terrible idea, but to keep the mesh small and simple I decided not to do this right now. 
         </p>  
+
+        <img src="images\EffectData04.png" alt="Effect data">
+        <p class="image-description">
+            The effect data only added a uint16_t for reference counting.
+            In D3D sizeof(cEffect) now returns 56. I went back to check if moving things around would change the size, and in D3D it doesn't. However, in OpenGL we can reduce it 
+            from 20 to 16 by placing our macro next to the RenderState. In OpenGL, the RenderState only holds a uint8_t, so placing the uint16_t next to that lets them take up the 
+            same 8 byte chunk. This keeps the OpenGL size at 16. This also doesn't seem to affect D3D so I'm changing it. In D3D the RenderState is much larger, and that accounts for 
+            the difference.
+            <br/><br/>
+            To calculate the amount of data budgeted for Graphics, I need to get the size of the sDataRequiredToRenderAFrame struct and multiply it by two. 
+            I will only do this in D3D for simplicity since there aren't differences in the struct between platforms.
+            The struct holds a Frame struct, a Color struct (for the background color), an int to track the number of mesh/effect pairs, and a predefined maximum number 
+            of mesh/effect pairs. I chose 64 since I know I won't be going past that for now. A MeshEffectPair is a struct with a pointer to a mesh and an effect. 
+            The color struct is 4 floats (16 bytes), and sizeof(sFrame) returns 144. We also have a 4-byte int. So before counting any MeshEffectPairs we have a total size of
+            164 bytes. Each MeshEffectPair is 16 bytes and we have 64, so they take up 1024 bytes. Adding this to our other 164 bytes gives us 1188. However, sizeof(sDataRequiredToRenderAFrame)
+            gives us 1192 because of padding. I tried to get around this by rearranging things, but there isn't a way to get around it as far as I can tell. So with two of 
+            these structs we have a total of 2384 bytes of memory for graphics to render frames (though this can be expanded by allowing more MeshEffectPairs). 
+            I don't think we should include the memory that the meshes and effects take up, because they are loaded by the game, so that memory is shared between multiple systems. 
+            We could also load more than 64 meshes or effects in the game and not pass them into graphics, and those would still take up memory, but that isn't memory budgeted for 
+            graphics rendering. If we had a system where memory was always freed and allocated for each mesh/effect as it's drawn, then it would probably make sense to include those. 
+        </p>
 
     </div>
 
