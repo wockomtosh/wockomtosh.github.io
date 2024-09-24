@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assignment 04</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Assignment 04 Writeup</h1>
+        
+    </div>
+    <div class="section">
+
+        <p class="image-description">
+            <a href="zips/MyGame4.zip" download>
+                Download MyGame
+            </a>
+        </p>
+        
+        <img src="images\game04.png" alt="Game Picture">
+        <p class="image-description">
+            This is assignment 4 for GAMES6320. In this assignment I separated out the graphics code from the game code. This gave me further
+            practice in refactoring and bug fixing. It also gave me more practice in designing user-friendly interfaces. This will also prepare 
+            the code to be threaded later on. In this assignment I also made my meshes and effects reference-counted.
+            <br/><br/>
+            Getting the background color submitted from the game files was pretty trivial, though I ran into an issue because my color struct didn't 
+            have a default constructor. Adding reference counting to my mesh and effect was also pretty easy, but loading them in the game was trickier. 
+            I ran into an error from having a circular dependency with my includes, and that was difficult to track down. I'm learning why lots of 
+            these files have includes in the .cpp file rather than header files when possible. Submitting the meshes and effects to be rendered from the game felt daunting at first 
+            but ended up being pretty easy as well. I will discuss that more by the submission code. There was another tricky bug that came up in the end where I would 
+            get nullptr exceptions, but only when the assets weren't built. I'm glad I tested for it. It took me a while to parse through the errors, but eventually I realized 
+            that when I was incrementing the references for meshes and effects I wasn't checking to make sure they weren't null. 
+            Overall, the assignment wasn't too bad. It was really good practice and doing this writeup has been very helpful in solidifying what I'm learning about systems design.
+        </p>
+
+        <img src="images\game04_NoMesh.png" alt="Game Picture without one mesh">
+        <p class="image-description">
+            This is my game but the square is missing. The user can do this by pressing Z.
+        </p>
+
+        <img src="images\game04_DifferentEffect.png" alt="Game Picture with a different effect">
+        <p class="image-description">
+            This is my game but the white triangle is now colored like the other mesh. The user can do this by pressing X.
+        </p>
+
+        <img src="images\ColorMeshSubmission.png" alt="Code that submits color, meshes, and effects for drawing">
+        <p class="image-description">
+            This the code that submits background color and mesh/effect pairs for drawing. I decided to not make the game programmer 
+            set up a struct or anything for the mesh/effect pair, that is all handled in graphics. This way the user can just submit a mesh with an accompanying 
+            effect and that's it. It also obscures future updates from the user. For example, if I want multiple meshes drawn with a single effect 
+            or if I wanted to not put the pairs into a struct, I could update the graphics code to do that without needing any changes to be made in the game code.
+            I'm thinking about updating it in the future to take in the data and check if that effect is being used elsewhere, and then putting those next to each 
+            other somehow to make it so we only have to bind one effect for both meshes. It's probably more complicated than what I understand, but I think this makes 
+            it easier to do that if I decide to later.
+            <br/><br/>
+            It makes sense to cache all of our frame data before rendering because we will be rendering in a separate thread from the game. Caching everything first 
+            makes sychronization easier and also makes sure that everything for the frame is finalized before it is rendered. We can know that we won't be submitting something 
+            to be rendered mid-frame, which could potentially cause issues. 
+        </p>
+
+        <img src="images\MeshData04.png" alt="Mesh data"> <br/>
+        <img src="images\MeshDataOpenGL.png" alt="OpenGL Mesh data"><br/>
+        <img src="images\MeshDataD3D.png" alt="D3D Mesh data">
+
+        <p class="image-description">
+            The mesh data also only added a uint16_t for reference counting. The platform-specific data is the same as before.
+            In D3D sizeof(cMesh) with the code shown gives 24. This was larger than I anticipated, previously it gave a size of 16. However, I realized that I misunderstood
+            how the size worked before. I know that there are some data types that vary in length between 32-bit and 64-bit architecture, and I thought that 
+            int was one of them. However, I was wrong in this case. The reason it was 16 bytes before is that it had a 64-bit pointer and a 32-bit unsigned int
+            and it was 8 byte aligned, so there were 4 bytes of padding. I was taught that to be the most cache friendly you should generally list your largest
+            data members first. Because I thought that the pointer and int were the same size, I didn't pay attention to the order. However, if I change the order to 
+            have the int next to the uint16_t declaration (inside the macro), it reduces the size of the mesh back down to 16 (this time with only 2 bytes of padding). This was a silly mistake 
+            but it was easy to fix. 
+            In OpenGL the size eincreaseds from 8 to 12, and there isn't a way to optimize this further.
+            The platform-specific data behind the pointer to the struct is the same and does not need to be changed. One thing I considered doing that 
+            would have made the mesh bigger was to store a pointer to the effect within the mesh to avoid creating a struct for mesh/effect pairs. I think this might not be 
+            a terrible idea, but to keep the mesh small and simple I decided not to do this right now. 
+        </p>  
+
+        <img src="images\EffectData04.png" alt="Effect data">
+        <p class="image-description">
+            The effect data only added a uint16_t for reference counting.
+            In D3D sizeof(cEffect) now returns 56. I went back to check if moving things around would change the size, and in D3D it doesn't. However, in OpenGL we can reduce it 
+            from 20 to 16 by placing our macro next to the RenderState. In OpenGL, the RenderState only holds a uint8_t, so placing the uint16_t next to that lets them take up the 
+            same 8 byte chunk. This keeps the OpenGL size at 16. This also doesn't seem to affect D3D so I'm changing it. In D3D the RenderState is much larger, and that accounts for 
+            the difference.
+            <br/><br/>
+            To calculate the amount of data budgeted for Graphics, I need to get the size of the sDataRequiredToRenderAFrame struct and multiply it by two. 
+            I will only do this in D3D for simplicity since there aren't differences in the struct between platforms.
+            The struct holds a Frame struct, a Color struct (for the background color), an int to track the number of mesh/effect pairs, and a predefined maximum number 
+            of mesh/effect pairs. I chose 64 since I know I won't be going past that for now. A MeshEffectPair is a struct with a pointer to a mesh and an effect. 
+            The color struct is 4 floats (16 bytes), and sizeof(sFrame) returns 144. We also have a 4-byte int. So before counting any MeshEffectPairs we have a total size of
+            164 bytes. Each MeshEffectPair is 16 bytes and we have 64, so they take up 1024 bytes. Adding this to our other 164 bytes gives us 1188. However, sizeof(sDataRequiredToRenderAFrame)
+            gives us 1192 because of padding. I tried to get around this by rearranging things, but there isn't a way to get around it as far as I can tell. So with two of 
+            these structs we have a total of 2384 bytes of memory for graphics to render frames (though this can be expanded by allowing more MeshEffectPairs). 
+            I don't think we should include the memory that the meshes and effects take up, because they are loaded by the game, so that memory is shared between multiple systems. 
+            We could also load more than 64 meshes or effects in the game and not pass them into graphics, and those would still take up memory, but that isn't memory budgeted for 
+            graphics rendering. If we had a system where memory was always freed and allocated for each mesh/effect as it's drawn, then it would probably make sense to include those. 
+        </p>
+
+    </div>
+
+</body>
+</html>
