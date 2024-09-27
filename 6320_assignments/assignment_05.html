@@ -48,7 +48,8 @@
         <img src="images\SubmitObjects.png">
         <p class="image-description">
             To me it seemed easiest to just have a function on the RenderableObject that submits itself. That way the programmer just worries about the state of the object and when 
-            to show it rather than how to actually deal with the graphics library. 
+            to show it rather than how to actually deal with the graphics library. In this example s_myObject is a RenderableObject, and all the programmer has to do is say they want 
+            it submitted (with the time elapesed for position extrapolation).
             <br/><br/>
             To account for position data, my MeshEffectPair from last time initially stored a DrawCall struct with a matrix transform inside of it. This added 64 bytes to the MeshEffectPair.
             This makes the overall size of the MeshEffectPair (the data needed to render one mesh) 80 bytes, increased from the previous 16. I realized during this write up that I could 
@@ -56,10 +57,10 @@
             but that's a huge amount of memory when you realize that the memory for all of my meshes is preallocated.
         </p>
 
-        <p class="image-description"></p>
+        <p class="image-description">
             We need to make sure we extrapolate our position when we are rendering with our engine because the simulation update happens at a fixed rate, so if we only move our position 
             based on the simulation update our objects will look like they're moving at a fixed rate every frame. If we extrapolate then we can find where the objects should be between frames 
-            and it looks smooth.
+            and it looks smooth. Basically we render faster than our simulation runs, so we need to predict what is happening between simulation steps.
         </p>
     </div>
 
