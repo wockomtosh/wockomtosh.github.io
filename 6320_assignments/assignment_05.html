@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assignment 05</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Assignment 05 Writeup</h1>
+        
+    </div>
+    <div class="section">
+
+        <p class="image-description">
+            <a href="zips/MyGame5.zip" download>
+                Download MyGame
+            </a>
+            <br/>
+            The controls are WASD for camera movement, Z to switch meshes, and arrow keys to move the mesh.
+        </p>
+        
+        <img src="images\game05.png">
+        <img src="images\game05_DifferentMesh.png">
+        <img src="images\game05_Moved.png">
+        <p class="image-description">
+            This is assignment 5 for GAMES6320. In this assignment I created camera and game object representations, made shaders mostly platform independent, and 
+            implemented a draw call constant buffer to be used for object transformations. I also implemented camera movement and object movement. 
+            It gave me more practice refactoring unfamiliar code and also designing interfaces that will be used by other engineers, which I really appreciated.
+            <br/><br/>
+            The hardest parts were figuring out my camera representation with how matrix transforms work in this engine and figuring out how draw call buffers work. 
+            For the camera I had an issue where I was initially testing it with the object on the far end of the camera's view frustum, so I thought it was broken for a while 
+            before realizing that it was working correctly. There was also a lot of time spent on just figuring out where everything fits in as far as the camera is concerned.
+            I'm still not totally sure about how draw call buffers should be used, but I understand them enough to use them for this purpose. Creating a game object and doing movement and 
+            mesh changes for that was pretty easy once I got the shaders fixed to account for position data.
+        </p>
+
+        <img src="images\RenderableObject.png">
+        <p class="image-description">
+            I called my game object a RenderableObject. It holds a rigidbody for position and movement data and handling, and it also holds pointers to a mesh and an effect.
+            I tried to keep the memory minimal and provide functions for easy use. The rigidbody is exposed as a public variable so that I didn't have to implement functions that 
+            effectively would just pass data to the rigidbody. I did create an Update() function that just updates the rigidbody, but theoretically this could be expanded to do more.
+            There are functions that set new meshes and effects and take care of reference counting as well so that they can be easily swapped. All of the data members are used 
+            when submitting the function to be rendered.
+        </p>
+
+        <img src="images\SubmitObjects.png">
+        <p class="image-description">
+            To me it seemed easiest to just have a function on the RenderableObject that submits itself. That way the programmer just worries about the state of the object and when 
+            to show it rather than how to actually deal with the graphics library. 
+            <br/><br/>
+            To account for position data, my MeshEffectPair from last time initially stored a DrawCall struct with a matrix transform inside of it. This added 64 bytes to the MeshEffectPair.
+            This makes the overall size of the MeshEffectPair (the data needed to render one mesh) 80 bytes, increased from the previous 16. I realized during this write up that I could 
+            store just the position and orientation data and use that to create a transform, which reduced the needed memory from 80 to 48 bytes. It feels a little less elegant this way, 
+            but that's a huge amount of memory when you realize that the memory for all of my meshes is preallocated.
+        </p>
+
+        <p class="image-description"></p>
+            We need to make sure we extrapolate our position when we are rendering with our engine because the simulation update happens at a fixed rate, so if we only move our position 
+            based on the simulation update our objects will look like they're moving at a fixed rate every frame. If we extrapolate then we can find where the objects should be between frames 
+            and it looks smooth.
+        </p>
+    </div>
+
+</body>
+</html>
