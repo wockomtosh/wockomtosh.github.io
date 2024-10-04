@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assignment 06</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Assignment 06 Writeup</h1>
+        
+    </div>
+    <div class="section">
+
+        <p class="image-description">
+            <a href="zips/MyGame6.zip" download>
+                Download MyGame
+            </a>
+        </p>
+        
+        <img src="images\game06.png" alt="Game Picture">
+        <p class="image-description">
+            This is assignment 6 for GAMES6320. In this assignment I made a MeshBuilder that allows me to create mesh files in a custom file format 
+            and use them in my game without having to have any geometry data in the code. This will make it possible to get meshes from an modeling tool 
+            like Maya (after some additional work). I used Lua with C++ to load the files, which was very new to me. I have used Lua as a scripting 
+            language before, but I've never used Lua in C++. It took a long time to understand how to use Lua in C++, but after that was done the actual 
+            implementation wasn't super difficult. Most of the time was spent in just understanding how to think in a different way to use Lua. Another big 
+            part of this assignment was designing my file format to be human readable, which I will discuss further down on this page. 
+            <br/><br/>
+            I ran into a bug with my meshes where I knew all the data was being read correctly, but there were still 
+            issues in the meshes. It ended up not being a Lua problem luckily, but a problem with my indexing. This happened because of how I decided 
+            to store index data. Because every three indices represent a triangle, my file format holds indices in threes. However, my indexData in the code 
+            is stored as a plain array, and I wasn't moving the indices to that array properly. Once I figured out the problem it was an easy fix, but it 
+            was hard to track down because it was such a simple thing that I wouldn't normally consider. I had to look at indexData in memory before I realized what was happening.
+            Other than that bug, the assignment was moderately challenging to understand how to use Lua, but more time-consuming than challenging. 
+            I think using Lua itself isn't too hard, but when you add in all of the required error checking the code becomes very unreadable and hard to 
+            work with, which slowed me down a lot.
+        </p>
+
+        <img src="images\meshFile.png" alt="Picture of mesh file format">
+        <p class="image-description">
+            My file format is pretty straightforward and I think it's very readable. It's a Lua table with two keys, one for vertex data and one for 
+            index data. The vertex data contains an array of vertices. Each vertex is a table containing position data. I made each vertex a 
+            table so that later on I can easily add color data or things like that if I want to or need to. The index data is labeled as indexDataForTriangles 
+            to make it clear that indices represent triangles. It is an array of arrays. Each of the arrays inside of the index data has 3 elements, 
+            which makes it really easy to think about things and work with the data in terms of triangles. If there is an issue with a triangle 
+            this makes it much easier to track it down.
+            <br/><br/>
+            Having human readable files is really helpful for debugging purposes. Having extra information in a file is less efficient, but because we can switch to 
+            something like a binary file after building (to be done in a later assignment) it doesn't make a difference to the end user. It is a benefit to the developers. 
+            If something goes wrong for a mesh, or if I want to make a quick change to a mesh then having a human readable file is 
+            really nice. It's also really easy to annotate with things like vertex IDs and triangle numbers, which can further help with debugging and manual editing.
+        </p>
+
+        <img src="images\meshBuilderDebug.png" alt="Picture of MeshBuilderDebug">
+        <p class="image-description">
+            This is a screenshot of me debugging my MeshBuilder. I initially had problems with debugging because when I set my command arguments in Visual Studio 
+            I forgot to set it to be all platforms and configurations, and I was on the wrong configuration.
+        </p>
+
+    </div>
+
+</body>
+</html>
