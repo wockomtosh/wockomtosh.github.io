@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assignment 07</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Assignment 07 Writeup</h1>
+        
+    </div>
+    <div class="section">
+
+        <p class="image-description">
+            <a href="zips/MyGame7.zip" download>
+                Download MyGame
+            </a>
+        </p>
+        
+        <img src="images\game07.png">
+        <p class="image-description">
+            This is assignment 7 for GAMES6320. In this assignment I wrote some code that would allow a Maya plugin to export meshes in my file format.
+            I created a few meshes to test this with. I also enabled depth buffering and added color to these meshes and updated my file format to be able to process vertex color data.
+            Overall this was probably the easiest assignment so far, which is why I did the extra challenge to add vertex color data. Doing that wasn't terribly difficult, but I ran into
+            some bugs when trying to update the D3D shaders to use color information. I didn't know how D3D uses inputs and outputs, so I did that wrong initially. HOW DID I FIX THIS?
+            The rest of the assignment was extremely straightforward, though it still took some time. Exporting meshes with my file format was very easy. I decided 
+            to add a lot of the unused data like normal, tangent, and texture coordinates because it was something that was really easy to do now but could make my life 
+            easier in the future. It seemed like a very low-cost thing that could save time later so that I don't have to come back to this plugin as much.
+            <br/><br/>
+            My MayaMeshExporter project needed a reference added for the Engine/Windows project, but that was the only one. There are also no other projects that depend on 
+            the MayaMeshExporter because it builds an external plugin, so if we don't need meshes created then the rest of the game and engine can ignore it.
+            <br/><br/>
+            To test the limits of how many vertices could be loaded in a single model I created a mesh with many spheres. When I loaded this model and tried 
+            to render it, it seemed to drop vertices after a certain point. Several spheres weren't rendered at all and some were rendered partially.
+            WHAT IS THE LIMIT
+        </p>
+
+        <img src="images\DebuggingPlugin.png">
+        <p class="image-description">
+            This is a screenshot of me debugging my plugin.
+        </p>
+
+    </div>
+
+</body>
+</html>
