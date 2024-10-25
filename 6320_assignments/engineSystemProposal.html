@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Engine System Proposal</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Engine System Proposal</h1>
+        
+    </div>
+    <div class="section">
+        
+        <p class="image-description">
+            For my engine system I'm planning to make a scene/level representation and provide the ability to load and stream scenes/levels. So far in the games I've worked on
+            one of the things that I've really enjoyed is handling the overall flow of the game. I've also been interested in how certain games provide large seamless worlds. 
+            In particular I've been thinking about the differences between older top-down Zelda games and modern top-down Zelda games, so I want to provide a system that will allow 
+            users to create sections of a world that can be loaded in next to each other based on certain conditions (like the camera's position). 
+            <br/><br/>
+            My current idea of how this will work from the perspective of a user is that the user will be able to create a .scene file in which they can store objects. These objects 
+            can contain certain information like a position, and the user will optionally be able to implement functions like OnSceneLoaded(). There will be a function called LoadScene() 
+            which will let the user load in a new scene. There will also be a function called StreamScene() which will allow the player to load in an additional scene at a given location. 
+            I'm not yet sure how the .scene files will be created. I think I won't have time to make an editor in which the user can move objects around, so they may need to be edited by hand 
+            to start. 
+            <br/><br/>
+            I think a major challenge will be figuring out how to allow the player to store any object inside of the scene. I may need to create a GameObject representation that is required. 
+            In another class we implemented an entity component system that allowed us to attach any component to any game object. I may need to create a simplified system like that if things 
+            get too complicated. I'll definitely need to figure out something for that. When I load a scene with objects I'll also need to make sure to load all the appropriate meshes and 
+            shaders and things like that, which could get tricky. If that gets too complicated I might need to make the .scene file have an object representation, but then have the user assign 
+            objects to those representations at runtime. That sounds really cumbersome though, so I'll try not to. I think scene streaming is a stretch goal, and just getting a scene representation 
+            that can be loaded is the main goal. Also if I find a way to make an editor that won't take too long then I could try that as well. 
+        </p>
+    </div>
+
+</body>
+</html>
