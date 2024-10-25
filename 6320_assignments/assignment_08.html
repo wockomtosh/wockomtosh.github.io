@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assignment 08</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Assignment 08 Writeup</h1>
+        
+    </div>
+    <div class="section">
+
+        <p class="image-description">
+            <a href="zips/MyGame8.zip" download>
+                Download MyGame
+            </a>
+        </p>
+        
+        <img src="images\game08.png">
+        <p class="image-description">
+            This is assignment 8 for GAMES6320. In this assignment I updated my meshbuilder to convert my human-readable Lua files to 
+            binary files to be used at runtime. This was a pretty quick change other than changing some of my error handling. I also 
+            needed to reverse the winding order for OpenGL triangles at build time, but this wasn't too difficult. This was the easiest 
+            assignment so far, but even so it was really cool to see how beneficial binary files are, and also how surprisingly easy they 
+            are to work with. The Lua files, while convenient for error-checking, were hard to extract and deal with in code.
+        </p>
+
+        <img src="images\MeshDataInHexHighlighted.png">
+        <p class="image-description">
+            This is one of my binary mesh files. The order of the data is the number of vertices, followed by the number of triangles, 
+            then the vertex data followed by the index data. I chose this order because I knew that the number of vertices and indices 
+            would be used to extract the vertex and index data, and putting all of the small data up front seemed easier to read in a hex editor. 
+            It also ended up aligning very nicely in the hex editor. The number of vertices is highlighted in green, and is 4 in this case. 
+            The number of triangles is highlighted in yellow and there are two. The vertex data has two parts, the location of the vertex and the 
+            vertex color. Each location value is stored as a float, so there are 12 bytes total for x, y, and z. This is highlighted in blue.
+            The color value, highlighted in magenta, is stored as 1 byte each for r, g, b, and a. The index data is at the end and each index is stored 
+            in 2 bytes. Highlighted in orange is the first triangle with indices of 0, 1, and 2. 
+            <br/><br/>
+            These binary files take up much less memory than the human-readable files and are also much faster to load at runtime. These are the primary 
+            reasons that we use binary files at runtime. A human isn't using them, so we only care about memory and processing efficiency. 
+            We store human-readable formats in source control because then they can be adjusted and used by the developers more easily. 
+            <br/><br/>
+            This particular binary file was build for D3D. D3D and OpenGL use different winding orders for indices, so when I build a binary file 
+            for OpenGL the first and last index of each triangle are flipped. This lets me move the processing power for that change to build time rather 
+            than runtime, which lets the game load faster. 
+        </p>
+
+        <img src="images\BinaryExtractionCode.png">
+        <p class="image-description">
+            This is how I extract the data from a binary mesh file. It's 4 small blocks of code for the 4 data points that I need. I need to allocate 
+            memory for the vertex and index data and copy the data over because if I just point them to the location of the loaded binary file, 
+            and then I free that data, the memory is no longer safe. For the vertex and triangle count this wasn't necessary.
+        </p>
+
+        <p class="image-description">
+            To test the advantages of using binary files I created a helix with many vertices. My first helix in Maya said it has around 65,000 vertices,
+            though in the human-readable file it was somewhere around 200,000. So I had to reduce it to about 16,000 vertices to get about 64,000 in the 
+            human-readable file. The human-readable file is 18,934 KB, while the binary file is only 1,189 KB. That's a massive difference in memory, 
+            which would be helpful in a game with many assets. The binary file is about 6% the size of the human-readable file.
+            The human-readable helix mesh file takes 0.73 seconds to load and extract. Meanwhile, the binary file takes .001 seconds to load and extract.
+            That's an even bigger savings than the memory. Clearly binary files are much more efficient than verbose human-readable text files.
+        </p>
+    </div>
+
+</body>
+</html>
