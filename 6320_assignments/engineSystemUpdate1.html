@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Engine System Update 1</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Engine System Update 1</h1>
+        
+    </div>
+    <div class="section">
+        
+        <p class="image-description">
+            This first portion of my engine has been pretty slow going, but I've made some critical design decisions and I'm getting ready to move forward with implementation.
+            The first thing I did was to make a list of what needed to be done at a high level. I need to create scene objects, provide a way to access those scene objects, 
+            provide a way to load and unload scenes, amd create a scene file format and build it into binary. Getting into the details of this brought up a lot of questions.
+            My first concern was how to create a scene object that can be easily represented in a file and can also contain generic data for any type of object. 
+            I decided to make an abstract class that users must inherit from in order to have their objects be loaded in a scene. This abstract class contains a unique ID,
+            a rigidbody (since this engine does not currently have a transform data type), and a flag to show if this object will be persistent between levels. Users must 
+            implement the Load function and can optionally implement the function OnSceneLoaded.            
+        </p>
+
+        <img src="images\SceneObject.png">
+        <p class="image-description">
+            The trickier part that I'm still not sure of, but I'm moving forward with anyways in order to get something working, is how to store generic data for derived objects.
+            My current decision is to use pairs of strings so that I can create a map for loading objects. Pictured above is an example of a scene object that represents 
+            a renderable object that I used previously. It contains transform data, is not persistent (so it doesn't need to specify the flag), and it contains two pieces of additional
+            data. When loading this object, that data will be converted to a map that will then be passed into the Load function, and the user can extract it and use it however they like.
+            Depending on how this is used it could be very memory intensive. For now though, it will be good enough.
+            I'm using a c++ standard unordered map to start because while it takes up more memory, reads and writes are faster. Because the memory it uses will be released right after the objects are 
+            loaded, I'm assuming that it won't be too much of a concern. I have tried to avoid using anything in the standard library, but I'm making an exception in this case in order to 
+            speed up development and focus more on other aspects of the system. However, if I can figure out an alternative I would like to use one.
+            <br/><br/>
+            Most of my time was spent in designing the system and setting up header files, so I'll rapid-fire some other important desing decisions I made. 
+            I decided to store scene data (basically a list of scene objects with a scene ID) to make it faster to unload unused scenes in level streaming.
+            I decided that I'm going to store persistent scene objects separately from other scenes. I initially wanted to preallocate memory for this, and I might still do that in 
+            some form, but because my scene object is an abstract class I can't preallocate an array.
+            I decided to assign IDs sequentially at runtime when a scene object is creatd. 
+            Scene objects use an unsigned 32 bit integer, so we can have a max of around 4 billion loaded while the game is running. In games 
+            that use lots of level streaming with many objects this could potentially cause problems after extended play. 
+            Scenes use a 16 bit integer for their IDs which is also assigned sequentially at runtime. This presents a similar risk to the scene objects.
+            I could have used GUIDs for this, but those take up much more space than integers, and it would likely require the user to generate their own GUIDs when creating the file.
+            I may use GUIDs in the future.
+            <br/><br/>
+            One big decision/problem that I need to figure out is how to help users best manage scene objects. Unity and Unreal provide ways to either link game objects in the editor or 
+            search for an object during runtime. For now I've decided to not include names in my scene objects to save space. I may end up having them for debug builds only. 
+            If I end up running into too many issues with providing effective ways to let users search for their scene objects, then I may sacrifice the memory for that. I haven't 
+            investigated that very much yet so hopefully I'll be able to find an effective solution.
+        </p>
+    </div>
+
+</body>
+</html>
