@@ -49,6 +49,10 @@
             search for an object during runtime. For now I've decided to not include names in my scene objects to save space. I may end up having them for debug builds only. 
             If I end up running into too many issues with providing effective ways to let users search for their scene objects, then I may sacrifice the memory for that. I haven't 
             investigated that very much yet so hopefully I'll be able to find an effective solution.
+            <br/><br/>
+            Another problem that I hope to tackle soon is how to effectively build my file format into binary. Because I'm allowing strings in the additional data, I need to find an 
+            effective way to store that data so that it can quickly be converted into a map. In the mesh files that we worked on previously we could read the binary using only 4 lines 
+            of code. I expect that it will be a bit harder and slower in this situation becasue of the variable size of the data. I hope to find a way to mitigate this.
         </p>
     </div>
 
