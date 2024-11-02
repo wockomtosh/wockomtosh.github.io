@@ -16,7 +16,7 @@
         <p class="image-description">
             This first portion of my engine has been pretty slow going, but I've made some critical design decisions and I'm getting ready to move forward with implementation.
             The first thing I did was to make a list of what needed to be done at a high level. I need to create scene objects, provide a way to access those scene objects, 
-            provide a way to load and unload scenes, amd create a scene file format and build it into binary. Getting into the details of this brought up a lot of questions.
+            provide a way to load and unload scenes, and create a scene file format and build it into binary. Getting into the details of this brought up a lot of questions.
             My first concern was how to create a scene object that can be easily represented in a file and can also contain generic data for any type of object. 
             I decided to make an abstract class that users must inherit from in order to have their objects be loaded in a scene. This abstract class contains a unique ID,
             a rigidbody (since this engine does not currently have a transform data type), and a flag to show if this object will be persistent between levels. Users must 
@@ -34,11 +34,11 @@
             loaded, I'm assuming that it won't be too much of a concern. I have tried to avoid using anything in the standard library, but I'm making an exception in this case in order to 
             speed up development and focus more on other aspects of the system. However, if I can figure out an alternative I would like to use one.
             <br/><br/>
-            Most of my time was spent in designing the system and setting up header files, so I'll rapid-fire some other important desing decisions I made. 
+            Most of my time was spent in designing the system and setting up header files, so I'll rapid-fire some other important design decisions I made. 
             I decided to store scene data (basically a list of scene objects with a scene ID) to make it faster to unload unused scenes in level streaming.
             I decided that I'm going to store persistent scene objects separately from other scenes. I initially wanted to preallocate memory for this, and I might still do that in 
             some form, but because my scene object is an abstract class I can't preallocate an array.
-            I decided to assign IDs sequentially at runtime when a scene object is creatd. 
+            I decided to assign IDs sequentially at runtime when a scene object is created. 
             Scene objects use an unsigned 32 bit integer, so we can have a max of around 4 billion loaded while the game is running. In games 
             that use lots of level streaming with many objects this could potentially cause problems after extended play. 
             Scenes use a 16 bit integer for their IDs which is also assigned sequentially at runtime. This presents a similar risk to the scene objects.
@@ -52,7 +52,7 @@
             <br/><br/>
             Another problem that I hope to tackle soon is how to effectively build my file format into binary. Because I'm allowing strings in the additional data, I need to find an 
             effective way to store that data so that it can quickly be converted into a map. In the mesh files that we worked on previously we could read the binary using only 4 lines 
-            of code. I expect that it will be a bit harder and slower in this situation becasue of the variable size of the data. I hope to find a way to mitigate this.
+            of code. I expect that it will be a bit harder and slower in this situation because of the variable size of the data. I hope to find a way to mitigate this.
         </p>
     </div>
 
