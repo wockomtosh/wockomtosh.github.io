@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Engine System Update 2</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Engine System Update 2</h1>
+        
+    </div>
+    <div class="section">
+        
+        <p class="image-description">
+            This week in my system I ran into some massive design flaws, but I also got some good work done in getting certain things set up for the future.
+            The first thing I did was to set up how my system would store its data. I decided to preallocate memory for a maximum number of persistent objects 
+            and scene data objects. The user can pass in whatever values they want and that will be set as the limit. I can't preallocate all of the data since 
+            scene objects are an abstract type, but I can at least preallocate space for scene object pointers and the few scene data values. 
+            I also was able to set up my list of scenes to work pretty effectively in a list. When a scene is unloaded, the scene data object is preserved but the 
+            data is cleared and the scene objects are deleted. Then the data from the scene object at the end of the array is moved to that scene data object, and the 
+            scene data object at the end of the array is cleared to make room for future scenes. 
+            <br/><br/>
+            Another thing I accomplished is that I set up a renderable object that inherits from cSceneObject. I was able to test it in my game and confirm that it works
+            as expected. Implementing a load function was easy because I was already loading the data elsewhere, I just needed to move the code to the right place. Using a 
+            map for the additional data needed for derived classes seems to work very effectively. Depending on whether I decide to avoid std containers in the future I might 
+            change the map to be a pair of arrays, but for now I think this will be more efficient and more worth my time. 
+            <br/><br/>
+            I came up with a few miscellaneous design ideas that seem to be helpful. The first is that scene IDs start at 1, and 0 is used as an invalid scene ID. This makes 
+            it easy to check if a scene is loaded or valid, and gives an easy default value to make it invalid. Another is I came up with a decent solution for the problem of 
+            using uint16_ts and uint32_ts for scene and object IDs. We can assume that eventually most objects will be unloaded, so once we hit the max value for those IDs I 
+            can search through my scenes and objects to find the highest current ID and use that as the new starting point. It isn't the most efficient solution, but it's a 
+            decent fallback for a problem that I don't expect to ever come up. The last of these is I decided that the scene should definitely have ownership of scene objects, 
+            and I need to find a way to tell other systems that might be using those objects when they have been deleted. I could use a modified form of reference counting, 
+            or I might leave it up to the user to take care of this in their object's destructor. Whatever the implementation, I think that this is important for the scenes to work. 
+            <br/><br/>
+            Now I'm running into two major issues related to actually loading scenes. From the scene's perspective, each object is an implementation of an abstract class.
+            It doesn't know what that implementation is. So how can we call the load function for a derived class without knowing what that is? I might require a type specifier 
+            in the scene object to help with this, but even then I need to find a way to let users register their load functions and associate them with a particular type.
+            I think we may have done something like this in a previous class, so I hope that I'm able to figure it out. 
+            The second major issue is how do I search for a particular object in a list of loaded objects? Custom load functions could add objects to other groups 
+            (for example, the load function for a renderable object could put it into a list of renderable objects held in some manager). However, at that point it's currently 
+            up to the user to figure out how to differentiate one object from another. I might leave this mostly as-is, but I'm trying to consider other options that don't require setting up an external list of objects.
+            The best option I can think of currently is to provide a function that finds all objects of a given type, and then the user can use that to look for the object they want.
+            This will especially make sense if I already need to give scene objects types to make loading work. 
+        </p>
+    </div>
+
+</body>
+</html>
