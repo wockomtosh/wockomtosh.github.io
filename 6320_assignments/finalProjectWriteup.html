@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Final Project Writeup</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Final Project Writeup</h1>
+    </div>
+
+    <div class="section">
+        <p class="image-description">
+            <a href="zips/FinalProject.zip" download>
+                Download My Final Project
+            </a>
+            <br/>
+           Use the arrow keys to move your character and space bar to swing your sword. Move to the left to go to the alternate scene and to the right to go to the base scene.
+        </p>
+        
+        <iframe class="standalone-video"
+            src="https://www.youtube.com/embed/AzmhsmAzZys">
+        </iframe>
+
+        <h2>The Project</h2>
+        <img src="images\Games6320FinalProject.png">
+        <p class="image-description">
+            My final project for this class was to create a simple game that mimicked some aspects of The Legend of Zelda series. My time was limited so I
+            proved various concepts rather than fleshing out any individual concept. The player can move a character around the screen with some simple animations.
+            When the player collides with items (the hearts) they are hidden, which with a small amount of additional work could be changed to "collecting" them.
+            When the player collides with enemies they are knocked back. The player can press the space bar to swing a sword. If the sword collides with enemies 
+            they are hidden. When the player moves off the screen to the right or left, the current scene is unloaded (all objects not marked as persistent are destroyed)
+            and a new scene is loaded based on the direction the player has moved. The player is also moved to the opposite side of the screen to make it look more like they 
+            are coming from that direction. 
+            <br/><br/>
+            To create this project I used a simple C++ game engine that was provided to me. Throughout this class I fleshed out the graphics system and created a scene system.
+            I also used animation and collision systems that were created by other students. The game uses 3D meshes, but the meshes I use are all flat because the animation 
+            system I used came with a tool that lets me easily create flat meshes.
+            <br/><br/>
+            I was interested in this because I've been thinking a lot about how games like the classic Zelda games would load and use data as the 
+            player moves between screens. I've also been thinking about modern games that often have seamless worlds. While I created my scene system with the capabilities of 
+            doing level streaming, I didn't have time to implement level streaming for this project. However, even this simple project revealed some interesting things about 
+            the complexities of loading and unloading data in games. For example, my scene system can load and unload objects very simply, but when this is combined with 
+            other systems that need to know information about scene objects it can get more complicated quickly. The collision system in particular had certain expectations about 
+            how collisions would be set up that required me to load and unload scenes differently than I expected. If I was to move forward and create more systems for this 
+            game and adjust the existing systems, I would want to design everything with easy loading in mind.
+        </p>
+
+        <h2>My Experience Making This</h2>
+        <p class="image-description">
+            Using my scene system worked about as well as I expected it to. I knew that I wanted to do something like this project while I was creating my system, so I 
+            designed it partially with that in mind. I had already created a sample scene object that I built on to fulfill the rest of my needs, which made my task a lot 
+            easier. Most of my work in this project was integrating the other systems and then creating game logic. 
+            <br/><br/>
+            One thing that I would want to change would be to 
+            have integrated managers for most if not all object types. For example, if two objects use the same mesh it gets loaded multiple times. If I had some sort of mesh 
+            manager that received the request to load a mesh, then it could check if we already have that mesh loaded and use that instead of loading a new mesh. I created managers 
+            for enemies and items because of how my scene system holds objects. With my system I'm able to search for all objects of a type or search by object ID, 
+            but this part of system is inconvenient to use, is slow, and doesn't make it easy to work with all objects of a type across many different places. My item and enemy managers could 
+            hold references to all active items or enemies and also handle some logic, such as when an object should be rendered. This removes a lot of effort on my part. Rather than needing to 
+            manage several objects and handle their logic individually, I can make a call to a manager that will handle the logic for all of them at once. I think expanding this 
+            to other parts of my engine, or perhaps creating a base manager that holds some basic functionality would make creating and handling future objects easier.
+        </p>
+
+        <h2>What I learned</h2>
+        <p class="image-description">
+            
+        </p>
+
+    </div>
+
+</body>
+</html>
