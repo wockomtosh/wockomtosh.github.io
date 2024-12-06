@@ -49,19 +49,76 @@
         </p>
 
         <h2>My Experience Making This</h2>
+        <h3>My Systems</h3>
         <p class="image-description">
             Using my scene system worked about as well as I expected it to. I knew that I wanted to do something like this project while I was creating my system, so I 
             designed it partially with that in mind. I had already created a sample scene object that I built on to fulfill the rest of my needs, which made my task a lot 
-            easier. Most of my work in this project was integrating the other systems and then creating game logic. 
+            easier. The majority of my work in this project was integrating the other systems and creating game logic. 
             <br/><br/>
-            One thing that I would want to change would be to 
-            have integrated managers for most if not all object types. For example, if two objects use the same mesh it gets loaded multiple times. If I had some sort of mesh 
+            One thing that I would want to change is to 
+            have integrated managers for most if not all object types, especially in the graphics system. For example, if two objects use the same mesh it gets loaded multiple times. If I had some sort of mesh 
             manager that received the request to load a mesh, then it could check if we already have that mesh loaded and use that instead of loading a new mesh. I created managers 
             for enemies and items because of how my scene system holds objects. With my system I'm able to search for all objects of a type or search by object ID, 
             but this part of system is inconvenient to use, is slow, and doesn't make it easy to work with all objects of a type across many different places. My item and enemy managers could 
             hold references to all active items or enemies and also handle some logic, such as when an object should be rendered. This removes a lot of effort on my part. Rather than needing to 
             manage several objects and handle their logic individually, I can make a call to a manager that will handle the logic for all of them at once. I think expanding this 
             to other parts of my engine, or perhaps creating a base manager that holds some basic functionality would make creating and handling future objects easier.
+            <br/><br/>
+            One thing that was inconvenient about my system that I would want to fix is to find some way to make it easier to load derived classes in the scene system. I had to 
+            duplicate a lot of code in the static load functions that the system uses. I have a renderable object that is the parent of a collision object. Because the load function 
+            needs to allocate memory for the object that is being loaded, I couldn't just call the parent's load function because it would allocate memory for the wrong object type.
+            This might not be a system issue, for example I could have static functions like LoadMeshAndEffect() that could be used by the renderable object along with the collision object. 
+            Regardless, using the load functions wasn't particularly difficult, but I think there should be an easier way to create them. Ideally if we used a GameObject/Component system, 
+            we could set up the scene system to load individual components and create some object types by simply combining components with different attributes. This still leaves the problem 
+            of creating load functions for components, but it could potentially simplify the process of creating load functions for more complex objects.
+            <br/><br/>
+            Another thing that I still want to find a better solution for is searching for objects in my scenes. I can search for all objects of a type, and I can search for an object with a 
+            specific ID, but it's not convenient. After finding objects the user still needs to do error checking and casting. I could create some sort of template function that performs 
+            the cast that is required, and that would help in the process. The biggest thing that I would want to figure out is how to search for specific objects without giving every 
+            object a name. One option is to find a way to replace names with some other data at compile time (so each name could be replaced by an object ID or something), but that sounds 
+            overly complicated. To some extent I probably just need to accept that users need to provide their own criteria for how to differentiate between objects. In this game I got 
+            around this search issue in two ways. First, items and enemies add themselves to the appropriate manager when they are created. So I never have to search for them because I 
+            don't need to deal with any item or enemy specifically. The second way is that I made sure some objects were unique in their scenes. The background for each scene is the only renderable 
+            object, so I just need to search for that type and I know I'll just get the background. The character is the same, but the character persists between scenes so I only ever need to find 
+            it when the game first initializes. And for the character I could have also created a character manager similar to how the items and enemies work, but the game is simple enough for now 
+            that it seemed unnecessary.
+        </p>
+        <h3>Others' Systems</h3>
+        <p class="image-description">
+            Working with the systems that other students created was mostly good, but I ran into different problems with both of them. I think this was somewhat inevitable given that they 
+            had no way of knowing my requirements for their systems. I had to make minor adjustments to both systems. 
+            <br/><br/>
+            Integrating both systems into my engine was really easy. The interfaces were clear, and it was easy and fast to get something simple cases working. 
+            For the collision system specifically, it was easy to add collision components to objects through the inheritance structure that I was previously using for scene objects. 
+            After creating my collision objects, it worked great, but I needed to make a few changes. I needed to know what type of object I was colliding with in order for the sword 
+            to defeat enemies, for the player to get knocked back by enemies, and for the player to pick up the items. My scene objects already had an object type ID, so I added this to 
+            the collision component so that I could use that in my game. One problem that I was unable to solve is that there doesn't seem to be an easy way to "teleport" a collider.
+            In my game I move the player to the other side of the screen whenever they move to a new scene, but in the process the player can still run into enemies and receive knockback 
+            in their new location. This is more a problem with the creator of the system not knowing what my requirements would be. Normally this is actually a really good feature to 
+            make sure that fast-moving objects still detect collisions, and it works very well for that purpose. 
+            <br/><br/>
+            The main issue I ran into with the collision system was a unique interaction between it and my scene system. The collision manager does not expect many colliders to be added 
+            and removed at once. Because of that, a bug arose where new colliders could get removed. The old colliders were gone and no longer existed, but the collision manager hadn't been updated,
+            so it still thought that it needed to remove some colliders. 
+            I got around it by unloading a scene (and thus removing all colliders), making a new 
+            collision manager, and only then loading a new scene. Another solution to this might have been to have a collision manager for each scene. 
+            It is probably possible to get around this issue in multiple ways. If I were to move forward with this project, I would dig into the collision system more to find 
+            a cleaner solution to this issue to hopefully avoid any future problems.
+            I'm really glad that I ran into this bug because it showed me that there can be a lot more complexity to loading and unloading objects than what I have handled. 
+            I would be really interested to figure out how to best integrate loading for situations like this into my scene system.
+            <br/><br/>
+            Despite some issues that I ran into, using this collision system was a good experience. As stated previously, it did its job really well. It just didn't match some unique 
+            requirements that I had.
+            <br/><br/>
+            Using the animation system was similarly a good experience, but also required some changes. The hardest part was that I was unaware of the fact that after an animation is complete 
+            it would revert back to the Idle state, where I expected it to just stop at its last frame until I changed the state. This resulted in some bugs, but once I was aware of the problem
+            it was easy to fix. I also had an issue where on initialization, animation objects would allocate memory up to the maximum amount of animation data. However, the way it did this 
+            caused the build to crash in Release mode for animations that only used a small amount of animation data. This wasn't a particularly difficult fix though. One thing that would 
+            have been helpful to me when using the system would be to allow me to pass in the maximum amount of animation data rather than having that tied to a constant in the animation system.
+            I needed to expand the maximum from what I first set it to, but I had forgotten that I had set it in the first place and it was hard to track it to that issue.
+            <br/><br/>
+            Using the mesh creation tool that came with the system was convenient for smaller meshes, but for larger meshes it was hard to tell exactly which pixel I was coloring and was 
+            less precise (which is why I left holes in the sun in my backgrounds). But the fact that it came with a mesh creation tool at all was very appreciated.
         </p>
 
         <h2>What I learned</h2>
