@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Engine System Writeup</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <div class="about">
+        <h1>Scene System Writeup</h1>
+    </div>
+
+    <div class="section">
+        <p class="image-description">
+            <a href="../6320_assignments/zips/SceneSystem.zip" download>
+                Download My Scene System
+            </a>
+            <br/>
+            This contains the scene project, SceneBuilder.exe, and an example scene file. I also included the SceneBuilder project in case the executable is hard to use.
+        </p>
+
+        <h2>What does it do?</h2>
+        <img src="../6320_assignments/images\SceneHeaderFile.png">
+        <p class="image-description">
+            The scene system allows you to organize objects into scenes and load/unload those scenes as one unit. This makes it easier to organize your world
+            and manage level flow. It can also be used for level streaming or loading in a group of objects all at once. The scene system keeps a list of loaded 
+            scenes along with a list of persistent scene objects (which will be explained more later). 
+            <br/>
+            The core of the scene system is loading and unloading scenes. The LoadNewScene function will unload all existing scenes and load in a new one. 
+            The LoadAdditionalScene function loads a new scene without unloading any other scenes. UnloadSceneByID unloads a particular scene. 
+            The system provides several functions for searching scene objects. These include searching by object ID, scene ID, type, and searching for persistent objects.
+        </p>
+
+        <h2>What is a scene?</h2>
+        <p class="image-description">
+            A scene is composed of Scene Objects. cSceneObject is an abstract class that can be used to allow objects to be loaded as part of a scene. All scene objects have 
+            an ID, a type, and whether they are persistent between scenes. Persistent scene objects will not be unloaded by the scene system. When a persistent object is loaded 
+            as part of a scene, it is added to a separate list of persistent scene objects. In addition to these properties, scene objects have a virtual function that can be implemented 
+            called OnSceneLoaded, which is called by the system after all scene objects have loaded.
+        </p>
+
+        <h2>How do I make a scene object?</h2>
+        <p class="image-description">
+            To implement a scene object, you need to create a class that inherits from cSceneObject. Then, you need to implement a static Load function (an example is shown below).
+            This function tells the scene system how to treat your derived scene object class. This function should allocate memory for your scene object and load and set up any 
+            additional data needed for your object. It is passed a map of additional data. This data is set up in the scene file, and can contain anything the user wants. The intention 
+            is for the additional data to contain file paths or other small pieces of information necessary to instantiate your class. This load function could also be used to 
+            store a reference to these objects in a manager or some other place in your code. For example, I could store all renderable objects in a list somewhere and add them to 
+            that list whenever one is loaded here.
+        </p>
+        <img src="../6320_assignments/images\StaticLoadFunction.png">
+
+        <h2>How do I make a scene file?</h2>
+        <img src="../6320_assignments/images\FinalSceneObject.png">
+        <p class="image-description">
+            A scene file consists of a list of scene objects. Each scene object is required to have a type and any additional data necessary for that object. Each scene object 
+            can optionally have a position, orientation, and whether it is persistent between scenes. By default they will have a 0 position and orientation and will not be persistent.
+            The type is a uint16_t that is used by the system to know which load function to use for that object. I recommend storing this as a static member of the class you create.
+            The types are set by the user. Any additional data is stored as a list of pairs of strings. Anything can theoretically be stored here, but it is recommended to keep it short.
+        </p>
+        
+        <h2>How do I use it in my game?</h2>
+        <img src="../6320_assignments/images\InGameUse.png">
+        <p class="image-description">
+            To use this system in your game, first you need to implement your scene objects. Then you should initialize and cleanup the system when your game initializes and cleans up.
+            When you initialize your game you should also register your load functions. To do this you pass in your object type along with the static load function to the scene system.
+            After that is done you can load a scene and search for scene objects in whatever way fits your use case.
+        </p>
+        
+    </div>
+
+</body>
+</html>
