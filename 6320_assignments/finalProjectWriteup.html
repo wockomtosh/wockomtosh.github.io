@@ -25,7 +25,7 @@
         </iframe>
 
         <h2>The Project</h2>
-        <img src="images\Games6320FinalProject.png">
+        <img src="images/GAMES6320FinalProject.png">
         <p class="image-description">
             My final project for this class was to create a simple game that mimicked some aspects of The Legend of Zelda series. My time was limited so I
             proved various concepts rather than fleshing out any individual concept. The player can move a character around the screen with some simple animations.
@@ -121,9 +121,58 @@
             less precise (which is why I left holes in the sun in my backgrounds). But the fact that it came with a mesh creation tool at all was very appreciated.
         </p>
 
-        <h2>What I learned</h2>
+        <h2>What I learned This Semester</h2>
         <p class="image-description">
-            
+            This semester has been extremely useful to me as a programmer. I usually don't have many issues with any one particular task, but I've often struggled in combining 
+            complex systems. The biggest thing I've learned in this class is system design. I've practiced keeping systems independent, doing user/results-focused design, and focusing on a 
+            budget (in my case it was usually development time rather than compute or memory, but I also tried to minimize memory usage where possible). Getting this practice has helped me a lot in knowing 
+            when and how to use different design patterns, like singletons. It's helped me realize that the reason that we learn design patterns isn't because they're the perfect fit 
+            for every situation, but because we need to know a lot of options before we can get a sense of what is a good fit for a particular situation. I created my scene system with 
+            my project in mind. Because of that it was generally really easy to use and worked for my situation. Other systems weren't designed with my game in mind and they didn't 
+            always cover my situation perfectly. That doesn't mean these were bad systems, it just means that I either need to adapt my project or change the system. And seeing how 
+            others solved their design problems was really informative in helping me realize how I could improve my own system. 
+            <br/><br/>
+            I think that this was the main purpose of designing a 
+            system and using that system along with others' systems to make a game. I need to create a system to get more practice in that area, and I need exposure to more systems 
+            and design patterns to improve my own. I really like how this class gave us some guidance in building up one system (while still giving us freedom to make significant design
+            decisions), and then set us free to make our own. I think we were meant to see the complexity that a system can have along with possible solutions to those problems. Then, 
+            we need to just do it. In my Computer Science education I spent a lot of time learning design patterns and implementing large projects, but I didn't get a lot of practice 
+            in designing my own systems. It was usually practiced in prescribed ways. Being able to conceive of and make my own system with the knowledge I've gained was really valuable. 
+            And going on to use my system along with others was helpful in putting my design to the test and seeing the flaws in it. Using other systems helped me get more exposure 
+            to design ideas and it also helped me see some shortcomings of my system. 
+            <br/><br/>
+            After this project, I've definitely started to develop more of a personal preference for how I want to handle architecture and design. If I try to spend too much time designing 
+            up front a lot of it is wasted as I get into the code and realize what limitations I'm facing. But if I just design as I go then a lot of time is wasted trying to work around 
+            a problem before I ultimately need to refactor. What I settled on in the end for this project was to periodically create a framework for what I would work on next. I had a set 
+            of requirements for my scene system, which was my initial framework. I figured out where to start and fleshed out the framework a little more in that area before implementing it.
+            Then, I went back to the requirements to flesh out the next bit of framework that I needed to make sure I wasn't making silly mistakes halfway through implementation, and so on.
+            Doing this didn't solve all of my problems, and having a solid architecture from the beginning probably would have been better, but with my level of experience I need to 
+            get into the code so that I can see what problems I'm facing early on. I hope that as I improve in my skills I'll be able to anticipate more problems in advance to be 
+            able to spend even less time refactoring after running into problems. 
+            <br/><br/>
+            As far as designing things to be flexible up front vs designing for only what is needed in that moment, I think there is value to both approaches based on the situation. 
+            For example, if you are creating a system for an annual project or for several projects at once, it's probably best to design something more flexible. But if you're 
+            just working on one game that needs a new system, you should probably just develop the system for that game. That being said, it's important that in designing a system it
+            still works independent of other parts of the code as much as possible. Furthermore, if there is something that's easy to add to provide flexibility and has a low overhead
+            cost, you might as well add it. In my case I didn't think that I'd be able to get around to implementing level streaming in my final project, but I knew that it would be 
+            really easy to implement with how the rest of my scene system was set up. Because of that, I added the option in. I didn't flesh it out as much as I could have though, because
+            I doubted that a more fleshed-out use case would be necessary.
+            <br/><br/>
+            To me there are a few big things that make software architecture good. One is that wherever possible it shouldn't require an in-depth understanding of the inner workings of the system.
+            A big reason that we create software and different systems is so that not everyone needs to specialize in the same things and we can divide up the work. Needing a base 
+            level knowledge of the system is alright, but if you have to understand all the implementation details then there's a lot of wasted time in learning that before the 
+            system is useful. Another thing that makes good design is that it should work independently of other systems wherever possible. For example, I tried my best to make sure 
+            that my scene system was independent from as many systems as possible. It ended up relying on the physics system because it used rigidbodies for position, but really it 
+            probably should have even been independent from that. This made it a lot easier to use. In the end the collision and scene systems didn't work in a way that made them easily 
+            independent, but if they had been designed in such a way that they did not interfere with each other it would have saved a lot of time. A third thing that I think makes 
+            good software design is a clear and convenient interface. Ideally I'd like to call a few functions, pass in some data, and have the system take care of everything else 
+            for me. The less that I have to do to use the system properly the better. Also, systems and software should fail gracefully. They shouldn't cause a program to crash 
+            and if they do have errors it should be easy to find out what they are. Finally, software should fulfill the needs of the user. That was the biggest problem with the collision 
+            system for me. With my scene system I frequently load and unload many objects, and the collision system wasn't prepared for that. That doesn't mean it's a bad system, but 
+            it wasn't the best system for my game. 
+            <br/><br/>
+            I'm excited to take what I've learned here and apply it in various ways while I continue to develop games. This was a big weak point for me and I'm glad that it isn't 
+            nearly as much of a problem anymore. 
         </p>
 
     </div>
