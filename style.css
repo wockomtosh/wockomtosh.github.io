@@ -164,6 +164,13 @@ h1 {
     line-height: 1.25;
 }
 
+.small-image {
+    width: 98%;
+    @media (min-width:900px) {
+        width: 20%;
+    }
+}
+
 .standalone-image {
     width: 98%;
     @media (min-width:900px) {

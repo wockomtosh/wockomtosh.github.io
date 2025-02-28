@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Engine System Writeup</title>
+<link rel='stylesheet' href='../style.css'/>
+<meta name='viewport'
+    content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+</head>
+<body>
+    <iframe src="../header.html" class="header-iframe" frameborder="0" scrolling="no"></iframe>   
+
+    <div class="about">
+        <h1>Combat Design Process</h1>
+    </div>
+
+    <div class="section">
+        <h2>Week 1</h2>
+        <p class="image-description">
+            To start we settled on some core ideas that we want in our game - giant enemies, fast/nimble movement, and weak spots. We decided to start with Unreal's 
+            default third person character. We also decided that moving forward we will implement a dash inspired by Blue Fire, fast character acceleration, and a double jump.
+            <br/>
+            <br/>
+            To get to this point we first started by discussing what each of us want from the project. My main desire is to have some sort of interesting movement option 
+            to make the player feel acrobatic and powerful. Some of the inspiration for this came from games like Horizon Zero Dawn (sliding under creatures and slowing down 
+            time makes you feel powerful and maneuverable) and The Messenger. Bill wanted to have a more Tunic-like experience with a large enemy, weak points, a dodge roll, 
+            and stamina. Sarah expressed interest in ranged combat as well. To figure out how we could best include all of our ideas we referenced a lot of games.
+            <br/>
+            <br/>
+            We spent a lot of time discussing acrobatics and large enemies. We looked at games like The Pathless, Tunic, Attack on Titan, Shadow of the Colossus, 
+            Monster Hunter, Blue Fire, Wind Waker, Sekiro, Shadow Generations, The Messenger, and Elden Ring. We talked about focusing primarily on melee combat, 
+            but potentially having a ranged option that is similar to The Pathless, depending on how much time we have. We also decided that doing something with 
+            too much verticality (like Shadow of the Colossus) would be harder to implement. This is where we decided that a dash like the one in Blue Fire would 
+            be helpful in providing the feeling we want without taking the player too high. We also used a couple desk toys to determine more about the scale of 
+            our enemy compared with our player. To keep things simpler the enemy will be low to the ground but large.
+            <br/>
+            <br/>
+            We then started tweaking some of the numbers on the character controller we had. We increased the speed, acceleration, and air control of the player 
+            by a lot. This helped provide a better starting point for the feeling we're going for, but we need to implement more abilities to see how they contrast 
+            with basic movement before we can get a clearer picture of how it will feel. We are also going to get a model into the engine quickly to help us establish 
+            the scale of our enemy in-game.
+        </p>
+        <img src="../images/CharacterSizeReference.png" class="standalone-image">
+
+        <h2>Week 2</h2>
+        <p class="image-description">
+            In class this week we discussed movement, collision, and state for our game. We came up with a lot of ideas such as having a stagger state for the boss, 
+            having the player's dash be a teleport instead, having various invincibility states for the boss and player, and having light/heavy attacks that have 
+            different effects and ranges.
+            <br/>
+            <br/>
+            Outside of class we further discussed our character's dash. We decided that we wanted to make the dash a teleport like the one in Tunic 
+            (<a href="https://youtu.be/omC7mX16Jaw?si=TJJ9ZwbCkLUFIX3R&t=489">video</a>). 
+            This will hopefully better facilitate the feeling of nimbleness that we want for our player. We also wanted to encourage the player to dash with more precise 
+            timing and aim, so we want to create a hitbox when the player starts their teleport and when they reappear. This has not yet been implemented.
+            <br/>
+            <br/>
+            I helped implement the teleport. Currently the teleport stops if the player would run into something, but later we may consider allowing the player 
+            to teleport through objects and only stopping them if they wouldn't make it all the way through. There are several ways that we could do this. The 
+            biggest challenge associated with implementation so far is how to teleport through objects accurately while providing good camera movement. Currently 
+            the player moves incrementally so that the camera follows along smoothly, but that makes the implementation of teleporting through objects a bit harder. 
+            What I might need to do is use a line trace to determine if the player will reach the target location and if they wouldn't make it completely I'd step 
+            back until we find a place that the character can appear. There are several possible implementations, but for now I can leave the teleport as the simple 
+            implementation and take our design step-by-step.
+        </p>
+        <!--TODO: Insert video of build if I actually want to show this off later-->
+
+        <h2>Week 3</h2>
+        <p class="image-description">
+            This week we implemented some extra mechanics and we also discussed our character more. As far as the character goes, we had previously decided that we 
+            wanted a floating robot as our character to make some of our implementation easier. However, we needed to further discuss what that actually looked like 
+            because a couple of us were picturing something more bulky, which went against the agile feeling we want. We were able to use some drawings and references 
+            to clear up what we wanted. The lower robot in the picture is more of what we're looking for, or something like Eve from Wall-e.
+        </p>
+        <img src="../images/EveFromWalle.png" class="small-image">
+        <img src="../images/CharacterIdeas.jpg" class="small-image">
+        <p class="image-description">
+            After we got that figured out we discussed additional mechanics. We wanted to provide the player more control, especially in the air. A clear choice was a 
+            double jump. We referenced games like Jak and Daxter and Super Mario Galaxy to discuss a double jump that doesn't necessarily provide a lot of extra vertical 
+            movement, but keeps the player in the air longer and provides extra mobility. We also discussed a fast fall mechanic based on Super Smash Bros.
+            (<a href="https://youtu.be/HVrjr-ntM4w?si=PLDeQeMNFA5h7mAZ&t=29">video</a>).
+            This can let us do things like making a higher jump or an automatic hover jump without it being too floaty, and it also lets us constrain the teleport to 
+            when the player is grounded without making that too restrictive. It can also feed into certain boss attacks. I was inspired by a boss in Sonic Adventure 2 
+            (<a href="https://youtu.be/HVrjr-ntM4w?si=PLDeQeMNFA5h7mAZ&t=29">video</a>)
+            where you need to jump and duck, but often it is difficult because it takes too long to get to the ground. We could take advantage of our fast fall to give 
+            gameplay opportunities like that. After discussing these ideas, we drew out some ASDRs to get a better idea of what we're looking for:
+        </p>
+        <img src="../images/ASDRs.png" class="standalone-image">
+        <p class="image-description">
+            We then had some issues with getting the engine to work with a particular plugin that we wanted to use to make implementation easier later on, so my time 
+            on the implementation was mostly focused on helping the team get that working on all of our machines.
+        </p>
+
+        <h2>Week 4</h2>
+        <p class="image-description">
+            This week we implemented some extra mechanics and we also discussed our character more. As far as the character goes, we had previously decided that we 
+            wanted a floating robot as our character to make some of our implementation easier. However, we needed to further discuss what that actually looked like 
+            because a couple of us were picturing something more bulky, which went against the agile feeling we want. We were able to use some drawings and references 
+            to clear up what we wanted. The lower robot in the picture is more of what we're looking for, or something like Eve from Wall-e.
+        </p>
+        <p class="image-description">
+            While we were looking at everyone's games in class and talking about our game with teammates I came up with a fun idea for an attack (and I think a couple 
+            of my teammates came up with it at the same time too). We previously discussed having a rocket fist that the player can launch out to deal damage. We thought 
+            it would be fun if the player could teleport to their rocket fist to close the gap between enemies and deal extra damage. I was partially inspired by Shadow 
+            Generations (yet again).
+            (<a href="https://youtu.be/SEWxIEarduU?si=BQl7BRZdzuOOspsg&t=316">video</a>).
+            <br/>
+            <br/>
+            We split the task into a couple pieces and I was in charge of handling the projectile while someone else dealt with aiming. If the projectile hits something 
+            there is a slight delay and the player is teleported to the projectile. We added an "arm" mesh to the player (on top of the current skeletal mesh until we 
+            are ready to swap it out completely) that disappears when an arm projectile is launched, giving the illusion that the arm itself was launched. It reappears 
+            when the player teleports. Attached is a video of my part before the rest was added. I also helped combine the aiming and firing abilities, and a video showing 
+            the result of that combination is also attached in a reply because it looks like I can only attach one video per message
+        </p>
+        <iframe class="standalone-video"
+            src="https://www.youtube.com/embed/gM25aN3ARBM">
+        </iframe>
+    </div>
+
+</body>
+</html>
