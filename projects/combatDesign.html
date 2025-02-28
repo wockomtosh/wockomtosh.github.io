@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Engine System Writeup</title>
+<title>Combat Design Process</title>
 <link rel='stylesheet' href='../style.css'/>
 <meta name='viewport'
     content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
@@ -108,12 +108,138 @@
             We split the task into a couple pieces and I was in charge of handling the projectile while someone else dealt with aiming. If the projectile hits something 
             there is a slight delay and the player is teleported to the projectile. We added an "arm" mesh to the player (on top of the current skeletal mesh until we 
             are ready to swap it out completely) that disappears when an arm projectile is launched, giving the illusion that the arm itself was launched. It reappears 
-            when the player teleports. Attached is a video of my part before the rest was added. I also helped combine the aiming and firing abilities, and a video showing 
-            the result of that combination is also attached in a reply because it looks like I can only attach one video per message
+            when the player teleports. Below is a video of my part before the rest was added. I also helped combine the aiming and firing abilities, and a video showing 
+            the result of that combination is the next one down.
         </p>
-        <iframe class="standalone-video"
-            src="https://www.youtube.com/embed/gM25aN3ARBM">
-        </iframe>
+        <div class="game-preview">
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/gM25aN3ARBM">
+            </iframe>
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/DT_cZmT12ok">
+            </iframe>
+        </div>
+
+        <h2>Week 5</h2>
+        <p class="image-description">
+            This week, as assigned, we focused on adding some polish effects to our existing abilities. I wanted to work on some VFX and SFX for the teleport, 
+            along with a camera slide and some hesitation for the rocket fist teleport. As a reference for the VFX, I wanted something that would convey an 
+            in-and-out motion. We looked at seismic charges from Star Wars (https://www.starwars.com/video/seismic-charges Links to an external site.) along 
+            with two teleport effects from Super Smash Bros 
+            (<a href="https://www.youtube.com/watch?v=SBJPh_-wMf4&t=6s">video</a>) and
+            (<a href="https://www.youtube.com/watch?v=ej1fk74Rh4oLinks">video</a>).
+            I ended up taking the most inspiration from Mewtwo's teleport in Super Smash Bros. I've never used Niagara up until this point, so my ability to 
+            implement something good was limited, but I was able to approximate something that I like. After I implemented the VFX, I made sure that the mesh 
+            was hidden correctly and that there was a slight delay between when the VFX started and when the character actually moved. The first video below shows 
+            how the rocket fist looked after getting the teleport set up. 
+            <br/>
+            <br/>
+            After getting the VFX and hesitation set up, I tried to come up with some good SFX. I tried making a 'schloop' sound with my mouth to see if that 
+            worked, but it didn't have the right feel. I also tried using my udu (a type of drum) since it has a very distinct, bouncy sound, but it felt too 
+            cartoonish and out of place. The last thing I tried was reversing the recording of my udu, and that gave a really good sound that I like for the 
+            teleport. After setting up the hesitation, the VFX, and the SFX, I decided that the camera slide was unnecessary and would take 
+            away from the feeling I wanted out of this teleport. I think it would make the motion feel slower without the instant cut. 
+        </p>
+        <div class="game-preview">
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/a5qjYttsunM">
+            </iframe>
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/3Eh4yJatwe8">
+            </iframe>
+        </div>
+        <p class="image-description">
+            Next, I applied the same effects to the teleport dash, so that whenever the player teleports it acts consistently.
+            And the last thing I did was to fix a bug that made it so that the player's "arm" wouldn't aim properly. This helps the aiming feel a lot better.
+            Compared to how the ability looked before adding these changes, it definitely feels a lot better. One thing that's hard to notice with all 
+            the new effects, is that the slight hesitation adds a lot to the feel of the teleport. It really helps with the impact of the travel. Working on this really showed me how 
+            important it is to add at least some level of polish to your game early. The teleport was fine initially, but very bland. These effects make it feel a lot more fun.
+        </p>
+        
+        <div class="game-preview">
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/lGtynS_kMcc">
+            </iframe>
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/NDJx0yzoPdQ">
+            </iframe>
+        </div>
+
+        <h2>Week 6</h2>
+        <p class="image-description">
+            This week we did playtesting with members of other teams. Because of this playtesting, I was tasked with fixing collision bugs with the rocket fist. 
+            The projectile would occasionally get stopped by the player, and the projectile was also just a white cube when we wanted it to be the robot's arm. 
+            Furthermore, it was common to teleport inside of objects. A big cause of this was that the projectile would spawn slightly in front of the player 
+            and because of that it would travel through objects when you were too close. It still occasionally phases through objects, but the reason for this 
+            is unclear and it's not easily reproduced. The arm projectile now launches from the location of the arm (which also just looks way better), and now that we have a character model we 
+            use an actual arm model for the projectile and hide/show the arm accordingly. I tried a few other things as well to reduce the frequency of getting 
+            teleported inside an object. The player now is teleported 95% of the way to the arm before traveling the last distance with a sweep to make sure it 
+            doesn't hit anything. This isn't a perfect solution, but it does seem to reduce the frequency of getting stuck. I also completely redid the collision 
+            of the projectile so that it would no longer hit the player's model. It turns out that making sure you don't teleport inside of anything is fairly 
+            difficult. I looked at various solutions, and they include using a nav mesh (which we can't do for airborne teleportation), doing complicated line 
+            traces (which are also hard with the projectile), and more. I think the biggest issue I'm currently facing with the intermittent clipping bug is that 
+            the arm projectile sometimes misses a collision and moves too far, which causes the problem. I'm going to investigate it further if it hinders gameplay.
+        </p>
+        <div class="game-preview">
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/cCQdfb79suM">
+            </iframe>
+        </div>
+        <p class="image-description">
+            Here's what it looked like before these fixes.
+        </p>
+        <div class="game-preview">
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/xyJ0f4HUIB4">
+            </iframe>
+        </div>
+        
+        <h2>Week 7</h2>
+        <p class="image-description">
+            This week we discussed how we wanted to move forward with our boss based on the provided requirements. We decided that the enemy that encourages the player 
+            to be more thoughtful would be the main boss with its attacks, and the freestyle enemy would be the weak points that will be attached to the boss, which can 
+            currently be attacked independently from the boss. We also made more decisions about how the weak points will work. The weak points will have functions to 
+            be exposed and hidden, and they'll send messages to the boss when they take damage and when they are destroyed. The boss will have an overall health pool 
+            and when different weak points are attacked it will lose health. So they player doesn't necessarily need to destroy all the weak points or even destroy any 
+            of the weak points, provided that they are able to deal enough damage to the boss through the weak points. Some weak points can give damage bonuses as well 
+            this way, and we can prevent players from using a single weak point to defeat the boss by having it get destroyed after a certain amount of damage. There 
+            could also be something like 3 "hard" weak points that give bonus damage that the player could destroy to win, and 10 "easy" weak points, and the player can 
+            choose which ones they want to attack. The idea is similar in many ways to Horizon Zero Dawn, where enemies have a variety of weak points that can be destroyed 
+            and the player can choose how they want to go about it. 
+            <br/>
+            <br/>
+            We also decided that we'll add some more VFX and juice to the game in this step. In particular we assigned a teammate to make a hit VFX for the weak points.
+            The video below is of my weak point implementation. For testing I set up the weak point to change between exposed/hidden once per second. Also for testing 
+            the weak points take damage when the player collides with them (some player attacks are still being set up and will be in the build this week). After the 
+            weak point is destroyed, it changes to a new mesh to indicate this. I think this will add some nice flavor to the weak points and it provides a lot of 
+            flexibility for how we want our boss to look, which we're in the process of deciding (giant robot snapping turtle?)
+        </p>
+        <div class="game-preview">
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/820EZsxJGg0">
+            </iframe>
+        </div>
+
+        <h2>Week 8</h2>
+        <p class="image-description">
+            This week we discussed adding UI/UX elements to our game to better communicate with the player. We decided that we wanted to add several diagetic UX elements 
+            to communicate with the player when their hitboxes are active, when their dash cooldown is complete, and how much health the weak points have left. 
+            Active player hitboxes will be shown by activating VFX around the player's fists.
+            The dash cooldown will be indicated by a light somewhere on the robot (probably the head), similar to R.O.B. from Super Smash Bros. 
+            (<a href="https://youtu.be/vPn1AcdmCJg?si=rrF0_jHfwlkLV6_A&t=271">video</a>).
+            To show how much health the weakpoints have left, there will be cracks that appear on the weak point material that get worse as it loses more health.
+            I was in charge of handling the weak point cracks. I created a very simple cracking texture and applied it through dynamic material instances. Whenever the 
+            weak point is damaged, it also checks if it needs to update its materials to have more cracks. Initially we were going to only add cracks at 50% health and 
+            25% health, but after doing this it felt very uneven, so I added a third level at 75% health. This makes the state of each weak point much more readable. 
+            We are planning to add some bonus damage to the boss when weak points are destroyed, so having an easy way for the player to check which weak points are 
+            closest to being destroyed will hopefully help them prioritize their efforts.
+        </p>
+        <div class="game-preview">
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/J79j-mF9meA">
+            </iframe>
+        </div>
+
     </div>
 
 </body>
