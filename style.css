@@ -160,6 +160,16 @@ h1 {
     }
 }
 
+.game-image-square {
+    padding-top: .5rem;
+    padding-right: .25rem;
+    width: 98%;
+    object-fit: cover;
+    @media (min-width:900px) {
+        width: 50%;
+    }
+}
+
 .short-description {
     line-height: 1.25;
 }

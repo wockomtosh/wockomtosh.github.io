@@ -10,43 +10,42 @@
 
     <iframe src="header.html" class="header-iframe" frameborder="0" scrolling="no"></iframe>
 
-    <div id="about" class="about">
+    <!-- <div id="about" class="about">
         <h1>About Me</h1>
         <div class="section">           
             <p class="short-description">
                 Hello, I'm Jacob Liddle! I'm a master's student at the University of Utah studying Entertainment Arts Engineering. 
-                I'm passionate about creating games and helping other people have the incredible experiences that I've had with games. 
-                I love watching my code come to life. 
+                I'm passionate about creating games and helping other people have the incredible experiences that I've had with games.
             </p>
+        </div>
+    </div> -->
+
+    <div class="about">
+        <div class="section">
+            <h1>Table of Contents</h1>
+            <div class="table-of-contents">
+                <ol>
+                    <li><a href="#games">Games</a>
+                        <ol>
+                            <li><a href="#back-off-me-booty">Back Off Me Booty</a></li>
+                            <li><a href="#deep-sea-defender">Deep Sea Defender</a></li>
+                            <li><a href="#liminus-the-silent-guard">Liminus: The Silent Guard</a></li>
+                        </ol>
+                    </li>
+
+                    <li><a href="#projects">Code Projects</a>
+                        <ol>
+                            <li><a href="#scene-system">C++ Scene System</a></li>
+                            <li><a href="#ai-engine">C++ AI Engine</a></li>
+                        </ol>
+                    </li>
+                    
+                </ol>
+            </div>
         </div>
     </div>
-    
 
     <div>
-        <h1 id="projects">Code Projects</h1>
-
-        <div class="game">
-            <h2>C++ Scene Loading System</h2>
-            <p class="short-description">
-                I created a scene loading system to fit into a pre-existing C++ game engine. This system has a custom human-readable scene file format using Lua, a builder to 
-                convert the human-readable file into binary, and the system itself. The scene system has some dependencies on libraries from that engine, so those would need 
-                to be replaced for this to be used in another game engine.
-            </p>
-            <p><a href="projects/sceneLoading.html">Project Breakdown</a></p>
-        </div>
-
-        <div class="game">
-            <h2>C++ AI Engine</h2>
-            <p class="short-description">
-                I created a C++ game engine focused on learning about AI implementation. It uses OpenFrameworks for rendering. There are 3 main parts that build off each other. In the 
-                first part I implemented various dynamic steering behaviors including arrive, evade, wander, and flocking. In the second part I implemented pathfinding using a tile graph
-                and the A* algorithm with a couple different heuristics. In the third part I implemented decision-making behaviors including an action manager, behavior trees, 
-                decision trees, and goal-oriented action planning. 
-            </p>
-            <p><a href="https://github.com/wockomtosh/AI_Engine">GitHub Repo</a></p>
-            <!-- <p><a href="projects/aiEngine.html">Project Breakdown</a></p> -->
-        </div>
-
         <h1 id="games">Games</h1>
         <div class="section">
             <!--GAME TEMPLATE-->
@@ -63,7 +62,7 @@
                 <p><a href="">Project Breakdown</a></p>
             </div> -->
             <div class="game">
-                <h2>Back Off Me Booty</h2>
+                <h2 id="back-off-me-booty">Back Off Me Booty</h2>
                 <div class="game-preview">
                     <iframe class="game-video"
                         src="https://www.youtube.com/embed/Mo2-QTRfzsE">   
@@ -87,7 +86,7 @@
                 <p><a href="games/back-off-me-booty.html">Project Breakdown</a></p>
             </div>
             <div class="game">
-                <h2>Deep Sea Defender</h2>
+                <h2 id="deep-sea-defender">Deep Sea Defender</h2>
                 <div class="game-preview">
                     <iframe class="game-video"
                         src="https://www.youtube.com/embed/R7IQ_p9Ehcc">   
@@ -106,7 +105,7 @@
                 <p><a href="games/deep-sea-defender.html">Project Breakdown</a></p>
             </div>
             <div class="game">
-                <h2>Liminus: The Silent Guard</h2>
+                <h2 id="liminus-the-silent-guard">Liminus: The Silent Guard</h2>
                 <div class="game-preview">
                     <iframe class="game-video"
                         src="https://www.youtube.com/embed/amNIm6ZAF1I">   
@@ -123,7 +122,6 @@
                     This project was developed using Unreal Engine 4. 
                     I worked on prototyping mechanics and implementing enemy AI, player abilities, and UI.
                 </p>
-                <!-- <p><a href="">Project Breakdown</a></p> -->
             </div>
             <!-- <div class="game">
                 <h2>Show Yourself</h2>
@@ -160,6 +158,35 @@
                         <source src="video\SpaceWarGameplay.mp4">
                         Space War gameplay video
                     </video> -->
+        </div>
+
+        <h1 id="projects">Code Projects</h1>
+        <div class="section">
+            <div class="game">
+                <h2 id="scene-system">C++ Scene Loading System</h2>
+                <p class="short-description">
+                    I created a scene loading system to fit into a pre-existing C++ game engine. This system has a custom human-readable scene file format using Lua, a builder to 
+                    convert the human-readable file into binary, and the system itself. The scene system has some dependencies on libraries from that engine, so those would need 
+                    to be replaced for this to be used in another game engine.
+                </p>
+                <p><a href="projects/sceneLoading.html">Project Breakdown</a></p>
+            </div>
+
+            <div class="game">
+                <h2 id="ai-engine">C++ AI Engine</h2>
+                <div class="game-preview">
+                    <img class="game-image-square" src="images\Flocking.png" alt="Flocking algorithm in practice">
+                    <img class="game-image-square" src="images\Pathfinding.png" alt="Pathfinding algorithm in practice">
+                </div>
+                <p class="short-description">
+                    I created a C++ game engine focused on learning about AI implementation. It uses OpenFrameworks for rendering. There are 3 main parts that build off each other. In the 
+                    first part I implemented various dynamic steering behaviors including arrive, evade, wander, and flocking. In the second part I implemented pathfinding using a tile graph
+                    and the A* algorithm with a couple different heuristics. In the third part I implemented decision-making behaviors including an action manager, behavior trees, 
+                    decision trees, and some goal-oriented action planning. 
+                </p>
+                <p><a href="https://github.com/wockomtosh/AI_Engine">GitHub Repo</a></p>
+                <!-- <p><a href="projects/aiEngine.html">Project Breakdown</a></p> -->
+            </div>
         </div>
     </div>
     

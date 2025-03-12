@@ -46,7 +46,28 @@
         <h2 id="movement">Movement Behaviors</h2>
 
         <p class="image-description">
-            
+            I implemented various dynamic steering behaviors for this engine. The behaviors available are: Seek, Arrive, Align, Velocity Match, Evade, Separate, Wander, and Flocking.
+            This writeup assumes a basic understanding of how these behavior algorithms work. 
+        </p>
+
+        <p class="image-description">
+            The beginning of this project involved a lot more setup than I anticipated. Not only did I need to get basic AI movement working, I also had to figure out what sort 
+            of architecture I wanted to use to run my AI system. 
+            Luckily, I was learning about engine architecture in a class I was taking at the time so I decided to combine a lot of what I learned in that class into this project. 
+            While doing that, I learned that some of the things from my engine class were unnecessary for the goals of this project, so I didn't end up putting all of my 
+            engine code into this project. I wanted to take advantage of certain features from my engine, but I didn't want to include certain other features that would cause bloat. 
+            It was very interesting to learn first-hand how to set up this sort of project and how to tell what will be useful to me and what won't. 
+            <br/>
+            <br/>
+            I also learned several important lessons about good programming practice. One is that I need to be careful to use good variable names. I had issues early on because I was using less descriptive variable names 
+            which caused me to introduce several bugs. I also didn't understand certain algorithms thoroughly enough. For example, I technically implemented Seek incorrectly. 
+            I multiplied max acceleration by the distance vector to the target, which leads to an implicit increase in acceleration based on the distance to the target. 
+            Also, my code that clamped the max acceleration didn't actually work. I didn't realize the issue until my Seek output was disproportionately large in the flocking algorithm. 
+            It still looked good though, and I like the outcome more than doing it "correctly." Therefore, I kept it and desinged the rest of my algorithms with that 
+            assumption rather than fixing it. This was a big learning experience though. The way that the incorrect Seek looks is what I initially expected, but is not accurate to 
+            the algorithm. This came up several times. I either understood the algorithm of a behavior but got an unexpected output, or I got output that I liked but the algorithm 
+            wasn't correct. In the former case I was able to change parameters to give a better outcome, but in the latter case I instead needed to spend time debugging and making 
+            sure that everything was correct. 
         </p>
 
         <h2 id="pathfinding">Pathfinding</h2>
