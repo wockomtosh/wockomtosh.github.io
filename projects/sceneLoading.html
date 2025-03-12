@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Engine System Writeup</title>
+<title>Scene System Writeup</title>
 <link rel='stylesheet' href='../style.css'/>
 <meta name='viewport'
     content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
@@ -68,6 +68,33 @@
             To use this system in your game, first you need to implement your scene objects. Then you should initialize and cleanup the system when your game initializes and cleans up.
             When you initialize your game you should also register your load functions. To do this you pass in your object type along with the static load function to the scene system.
             After that is done you can load a scene and search for scene objects in whatever way fits your use case.
+        </p>
+
+        <h2>Potential improvements</h2>
+        <p class="image-description">
+            There are a lot of potential improvements that could be made to this system, many of which require other systems. For example, a file lookup system that uses GUIDs would 
+            be helpful in auto-generating the scene files and allowing file paths to be represented by a GUID rather than a string. If path names get too long it negatively affects performance 
+            because it increases file size and file read time. For very small projects that only require simple scenes and simple scene objects this isn't an issue. But as 
+            scenes and objects become more complex this would quickly balloon to unmanageable levels. 
+            <br/>
+            <br/>
+            Another improvement would be to create and integrate a component system so that more complicated scene objects can easily be created. The user could then add components 
+            to a scene object rather than inheriting from a cSceneObject. The inheritance structure does its job well, but if it is the only mechanism for creating unique objects then it will
+            create a complicated tree of objects that is hard to navigate. If this was integrated with a component system, then the components would likely use their own Load functions  
+            that would be called by the cSceneObject Load function. Users would be able to create new scene objects by composition rather than inheritance, or they could 
+            create some objects through inheritance and variations on those objects through composition.
+            <br/>
+            <br/>
+            An additional improvement to the system would be a better way to search for objects in the scene. One option for this would be to store a name for each scene object and provide a lookup 
+            using that name, but I didn't want to store the extra data needed for that. One way that I was able to mitigate this problem when using this system was to store a reference to 
+            scene objects in their respective systems. For example, if the user creates an enemy object, when an enemy object is loaded a pointer to that enemy can be stored in an enemy manager,
+            which can then easily handle whatever needs to be done with the enemy. The main problem with this is that it is a user-side solution. Perhaps there is a way to create this type of manager 
+            as part of a different system, and the user can then extend the managers to suit their needs.
+            <br/>
+            <br/>
+            Probably the most useful improvement would be a scene editor that allows the user to manipulate objects in the scene and auto-generate the scene files rather than requiring the user 
+            to create scene files by hand. No matter how user-friendly the rest of the system is in helping the user manage scenes in code, without a scene editor this system is too cumbersome to use
+            for a game with any real complexity.
         </p>
         
     </div>
