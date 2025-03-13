@@ -181,6 +181,10 @@ h1 {
     }
 }
 
+.clamp-wide-image {
+    max-width: 98%;
+}
+
 .standalone-image {
     width: 98%;
     @media (min-width:900px) {

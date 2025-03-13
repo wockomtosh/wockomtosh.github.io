@@ -23,7 +23,7 @@
         </p>
 
         <h2>What does it do?</h2>
-        <img src="../6320_assignments/images\SceneHeaderFile.png">
+        <img class="clamp-wide-image" src="../6320_assignments/images\SceneHeaderFile.png">
         <p class="image-description">
             The scene system allows you to organize objects into scenes and load/unload those scenes as one unit. This makes it easier to organize your world
             and manage level flow. It can also be used for level streaming or loading in a group of objects all at once. The scene system keeps a list of loaded 
@@ -51,10 +51,10 @@
             store a reference to these objects in a manager or some other place in your code. For example, I could store all renderable objects in a list somewhere and add them to 
             that list whenever one is loaded here.
         </p>
-        <img src="../6320_assignments/images\StaticLoadFunction.png">
+        <img class="clamp-wide-image" src="../6320_assignments/images\StaticLoadFunction.png">
 
         <h2>How do I make a scene file?</h2>
-        <img src="../6320_assignments/images\FinalSceneObject.png">
+        <img class="clamp-wide-image" src="../6320_assignments/images\FinalSceneObject.png">
         <p class="image-description">
             A scene file consists of a list of scene objects. Each scene object is required to have a type and any additional data necessary for that object. Each scene object 
             can optionally have a position, orientation, and whether it is persistent between scenes. By default they will have a 0 position and orientation and will not be persistent.
@@ -63,7 +63,7 @@
         </p>
         
         <h2>How do I use it in my game?</h2>
-        <img src="../6320_assignments/images\InGameUse.png">
+        <img class="clamp-wide-image" src="../6320_assignments/images\InGameUse.png">
         <p class="image-description">
             To use this system in your game, first you need to implement your scene objects. Then you should initialize and cleanup the system when your game initializes and cleans up.
             When you initialize your game you should also register your load functions. To do this you pass in your object type along with the static load function to the scene system.

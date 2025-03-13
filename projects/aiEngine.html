@@ -18,20 +18,9 @@
 
         <div class="table-of-contents">
             <ol>
-                <li><a href="#movement">Movement Behaviors</a>
-                    <!-- <ol>
-                        <li><a href="#controller-programming">Controller Programming</a></li>
-                        <li><a href="#processing-inputs">Processing Controller Inputs</a></li>
-                        <li><a href="#smoothing-rotation">Smoothing Rotation</a></li>
-                    </ol> -->
-                </li>
+                <li><a href="#steering">Steering Behaviors</a></li>
     
-                <li><a href="#pathfinding">Pathfinding</a>
-                    <!-- <ol>
-                        <li><a href="#environment">Environment</a></li>
-                        <li><a href="#level-flow">Level Flow</a></li>
-                    </ol> -->
-                </li>
+                <li><a href="#pathfinding">Pathfinding</a></li>
 
                 <li><a href="#decision-making">Decision Making</a>
                     <!-- <ol>
@@ -43,23 +32,52 @@
             </ol>
         </div>
         
-        <h2 id="movement">Movement Behaviors</h2>
+        <h2 id="steering">Steering Behaviors</h2>
 
         <p class="image-description">
             I implemented various dynamic steering behaviors for this engine. The behaviors available are: Seek, Arrive, Align, Velocity Match, Evade, Separate, Wander, and Flocking.
-            This writeup assumes a basic understanding of how these behavior algorithms work. 
+            This writeup assumes a rough understanding of how these steering algorithms work. 
         </p>
+
+        <h3>Initial Setup</h3>
 
         <p class="image-description">
             The beginning of this project involved a lot more setup than I anticipated. Not only did I need to get basic AI movement working, I also had to figure out what sort 
-            of architecture I wanted to use to run my AI system. 
-            Luckily, I was learning about engine architecture in a class I was taking at the time so I decided to combine a lot of what I learned in that class into this project. 
-            While doing that, I learned that some of the things from my engine class were unnecessary for the goals of this project, so I didn't end up putting all of my 
-            engine code into this project. I wanted to take advantage of certain features from my engine, but I didn't want to include certain other features that would cause bloat. 
+            of architecture I wanted to use to run my game. 
+            Luckily, I learned about engine architecture in a class I took, so I decided to combine a lot of what I learned in that class into this project. 
+            While doing that, I learned that some of the things from my engine class were unnecessary for the goals of this project, so I didn't end up putting all of those 
+            ideas that I learned about into this project. I wanted to take advantage of certain features, but I didn't want to include certain other features that would cause bloat. 
             It was very interesting to learn first-hand how to set up this sort of project and how to tell what will be useful to me and what won't. 
-            <br/>
-            <br/>
-            I also learned several important lessons about good programming practice. One is that I need to be careful to use good variable names. I had issues early on because I was using less descriptive variable names 
+        </p>
+
+        <img class="clamp-wide-image" src="..\images\AIComponent.png">
+
+        <p class="image-description">
+            For the base functionality of the AI objects I decided to create an AI system that would manage all AI objects and would delegate update calls to each AI object.
+            This made it easy to test different configurations of AI objects at runtime, because I could configure key presses to swap between sets of objects. 
+            The AI objects themselves are called AI components in the engine because I initially intended to incorporate a game object-component system to this engine. However,
+            as I started to implement different pieces of it, I realized that adding that system would take more time than it was worth for the scope of this project. Because of that, 
+            I repurposed my AIComponent class to contain everything necessary for the AI objects. It contains a rigidbody which performs simple physics updates based on acceleration. 
+            It also holds values for the position, orientation, velocity, rate of rotation, maximum speed, and maximum rate of rotation. The AI component holds the values for 
+            acceleration and angular acceleration because it provides acceleration values to the rigidbody using a steering behavior. The ISteeringBehavior interface is a simple 
+            interface that contains a getSteering function. An AI component can only hold one behavior at a time, so any combination of steering behaviors needs to happen in the 
+            behavior implementation. Using this setup made it very easy to move forward focusing on the implementation of my steering behaviors. 
+        </p>
+
+        <img class="clamp-wide-image" src="..\images\UpdateAndDraw.png">
+        <p class="image-description">
+            I also created a separate renderer class with static functions that I could use to make sure the OpenFrameworks draw() call was more compact and easier to manage. 
+            If I were to go back and improve on this, I would probably expand the renderer class significantly. Currently, I'm required to load all of my sprites in the OpenFrameworks 
+            setup() function, and those sprites are associated with a type of object (boids all use the same boid sprite, breadcrumbs all use the same breadcrumb sprite). 
+            Then I pass the sprite into a draw call along with the rigidbody associated with that object. Ideally, I'd like to have something like a render component that would 
+            hold a reference to the sprite for each object, and then 
+            I could attach that to a game object along with the rigidbody. The renderer could then hold references to each render component and handle drawing them in a separate system.
+            This is unnecessary for the limited scope of this project, which is why I didn't implement a game object representation and more complicated rendering. But if this 
+            needed to be used to create more than a few simple objects, I would want to add that.
+        </p>
+        
+        <p class="image-description">
+            In this portion of the project I also learned several important lessons about good programming practice. One is that I need to be careful to use good variable names. I had issues early on because I was using less descriptive variable names 
             which caused me to introduce several bugs. I also didn't understand certain algorithms thoroughly enough. For example, I technically implemented Seek incorrectly. 
             I multiplied max acceleration by the distance vector to the target, which leads to an implicit increase in acceleration based on the distance to the target. 
             Also, my code that clamped the max acceleration didn't actually work. I didn't realize the issue until my Seek output was disproportionately large in the flocking algorithm. 
@@ -68,6 +86,12 @@
             the algorithm. This came up several times. I either understood the algorithm of a behavior but got an unexpected output, or I got output that I liked but the algorithm 
             wasn't correct. In the former case I was able to change parameters to give a better outcome, but in the latter case I instead needed to spend time debugging and making 
             sure that everything was correct. 
+        </p>
+
+        <h3>Implementing the Behaviors</h3>
+
+        <p class="image-description">
+            
         </p>
 
         <h2 id="pathfinding">Pathfinding</h2>
