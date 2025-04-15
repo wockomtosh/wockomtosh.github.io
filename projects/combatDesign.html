@@ -234,6 +234,49 @@
             </iframe>
         </div>
 
+        <h2>Week 9</h2>
+        <p class="image-description">
+            This week we needed to give the player an opportunity for a power fantasy. To me we already had something relatively close to this - we have boss weak points that the player can attack and use them to deal a lot of damage to the boss. The big key though is making it feel that way. In a lot of Zelda games bosses have weak points that the player gets an opportunity to attack repeatedly. What makes this fun is the challenge of getting to this point and experiencing all of the effects on the boss while you do this. It's not a power fantasy if the hits don't feel good. Other team members are working on other aspects of this, so I took the opportunity to add more polish to the weak points.
+            <br/><br/>
+            To start, I decided that we should try using hit stop. When looking around at hit stop I saw a recommendation to add shake as well (like in Super Smash Bros) so I did. I decided to add shake in all 3 axis too since that gave a lot more impact to the hit.
+            <br/><br/>
+            Next I thought we'd want additional VFX. I started out with the idea of having sparks fly when the weak points are hit. I ended up making a very large particle burst. Making it huge was initially an accident, but I liked how it looked so I kept it. The idea is that as the weak points are hit there are bits flying off, which also is reinforced by the cracking. I think this VFX is a bit too dramatic to give off that specific idea, but it feels good and gives extremely clear feedback so that they player knows they're doing something right.
+            <br/><br/>
+            The last thing I wanted to add was sound effects, since those make an incredibly large difference to feel. I tried to record a couple sounds for the hit but couldn't come up with something I liked, so I decided to look at the sound library that the University has access to. I found a pretty good impact effect that I trimmed up for use in the game. It's not perfect, but it definitely improves the feel of hitting a weak point. I wanted to go for a more techno-feeling sound because our character is a robot, and it seems logical to me that our boss might be some sort of technological creature. And with how they are currently set up, the weak points are very artificial-looking objects, which is further emphasized by an artificial sound. I think even if these sound effects don't quite work as-is, they're close to something that we'd want.
+            <br/><br/>
+            I recorded a "clink" sound for when you hit the weak point in its invulnerable state to give the player more feedback in that situation, but our current system only sends events for damage, so I decided to put that off for now to be able to focus on other aspects.
+        </p>
+        <div class="game-preview">
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/URta0WybzBk">
+            </iframe>
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/w2l5EP2p034">
+            </iframe>
+        </div>
+        <div class="game-preview">
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/e6DhgU-01L4">
+            </iframe>
+        </div>
+
+        <h2>Week 10</h2>
+        <p class="image-description">
+            This week I implemented an upgrade for our rocket arm mechanic and did some design to provide an introduction to our game and that mechanic.
+            My main idea with the upgrade is that I wanted it to be very clear that the player should interact with it. To achieve this, I set the object to rotate, put it in a translucent sphere to make it look like an item capsule like from those machines at grocery stores, and put UPGRADE in all caps above the object. When the player overlaps the upgrade it disappears with a particle burst and a sound clip plays saying "upgrade unlocked". I tried to do my best "video game announcer" voice.
+            <br/><br/>
+            Next I wanted a logical way for the player to get that upgrade. I decided there should be something to encourage the player to use other abilities before getting the rocket arm. It made sense to have a weak point connected to some kind of object that would break to reveal the upgrade. I changed our weak points to optionally have an object tied to them that will be destroyed when the weak point is destroyed. This could be used in other encounter design as well if we want to in the future (each of the boss's weak points could be tied to a wall that holds back a group of enemies so that they attack the player after each weak point is destroyed). I then made the player start in a pit that can only be escaped using the rocket arm. So the only option is to hit the weak point until it breaks, then the power up is clearly visible, and the player can use it to escape and continue on. 
+            It's a rough draft of course, but to me it gives a pretty clear indication of what the player should do at each step. The only tricky part is I need something to tell the player which buttons to press to use the rocket fist. The only thing left is to finish implementing the boss fight in a way that encourages the player to use the rocket arm.
+        </p>
+        <div class="game-preview">
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/vYcHq_Rq2Sk">
+            </iframe>
+            <iframe class="game-video"
+                src="https://www.youtube.com/embed/Y34DgG5KLSQ">
+            </iframe>
+        </div>
+
     </div>
 
 </body>
